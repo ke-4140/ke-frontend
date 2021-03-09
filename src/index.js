@@ -4,12 +4,34 @@ import './index.css';
 import App from './App';
 import store from './app/store';
 import { Provider } from 'react-redux';
-import * as serviceWorker from './serviceWorker';
 
+import { Counter } from './features/counter/Counter';
+import { Uploader } from './features/uploader/Uploader';
+import { Editor } from './features/editor/Editor';
+import { Preview } from './features/preview/Preview';
+import { Download } from './features/download/Download';
+
+import * as serviceWorker from './serviceWorker';
+import 'fontsource-roboto';
+import {
+  BrowserRouter as Router,
+  Route,
+  Link,
+  Switch
+} from 'react-router-dom';
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <Router>
+        <Switch>
+          <Route exact path='/' component={App}></Route>
+          <Route exact path='/counter' component={Counter}></Route>
+          <Route exact path='/uploader' component={Uploader}></Route>
+          <Route exact path='/editor' component={Editor}></Route>
+          <Route exact path='/preview' component={Preview}></Route>
+          <Route exact path='/download' component={Download}></Route>
+        </Switch>
+      </Router>
     </Provider>
   </React.StrictMode>,
   document.getElementById('root')
