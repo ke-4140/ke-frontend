@@ -1,15 +1,9 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
+@import url('https://fonts.googleapis.com/css?family=Oswald');
 
 @media (prefers-reduced-motion: no-preference) {
-  .App-logo {
+.app h1 {
     animation: App-logo-float infinite 3s ease-in-out;
+    font-size: 60px;
   }
 }
 

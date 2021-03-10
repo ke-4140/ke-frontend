@@ -1,0 +1,33 @@
+.topNavBar{
+  display:flex;
+  width: 100%;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px;
+}
+
+.logo{
+  padding-left:20px;
+  text-align: center;
+  font-size: 40px;
+  text-decoration: none;
+  color:black;
+  font-family: "Oswald";
+}
+
+.tabItem{
+  text-align: center;
+  padding: 20px;
+  text-decoration: none;
+  color:black;
+}
+
+.tabItem:hover{
+  text-decoration: underline;
+  text-decoration-style: double;
+}
+
+.diviver {
+  display:flex;
+}

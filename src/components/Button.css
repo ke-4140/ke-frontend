@@ -1,0 +1,10 @@
+.button {
+  border-radius: 20px;
+  border-width: 0;
+  background-color:lightcyan;
+}
+
+.label {
+  font-size: 20;
+  font-family: "Oswald";
+}
