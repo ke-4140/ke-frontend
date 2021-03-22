@@ -31,13 +31,13 @@ export function Editor() {
     <div>
       <Header />
 
-      <div style={{ display: 'flex', flexDirection: 'row', height: '400px' }}>
-        <div style={{ flex: 2 }}>
+      <div style={{ display: 'flex', flexDirection: 'row', justifyContent:'space-between', height: '400px', margin: 20}}>
+        <div>
           <span>Instruction</span>
         </div>
-        <div style={{ flex: 3 }}>
+        <div>
           <iframe width="560px" height="340px"
-            src="https://www.youtube.com/embed/tgbNymZ7vqY?controls=0?enablejsapi=1">
+            src="https://www.youtube.com/embed/iJDoc0kvXLc?controls=0?enablejsapi=1">
           </iframe>
         </div>
       </div>
