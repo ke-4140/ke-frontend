@@ -1,17 +1,46 @@
 .wrapper {
-  max-height: 120px;
+  height: 110px;
   background-color: whitesmoke;
   display: flex;
-  overflow: auto;
+  overflow-x: scroll;
 }
+
+.progressBar {
+  position: absolute;
+  height: 5px;
+  width: 100%;
+  background-color:snow;
+}
+.progressNode {
+  height: 5px;
+  background-color:slategray;
+}
+
 
 .item {
   font-family: "Oswald";
-  height: 110px; 
+  height: 90px; 
+  border: 1px solid gray;
+  border-width: 1;
   min-width: 10px;
-  line-height: 110px;
-  background-color:beige;
+  line-height: 90px;
   text-align: center;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
+ 
+::-webkit-scrollbar-thumb {
+  background: #888; 
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555; 
 }
 
 .controlPane {
