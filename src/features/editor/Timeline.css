@@ -23,8 +23,24 @@
   border: 1px solid gray;
   border-width: 1;
   min-width: 10px;
-  line-height: 90px;
   text-align: center;
+  display:flex;
+  flex-direction: column;
+}
+
+.item .view{
+  text-align: center;
+  height: 70%;
+}
+
+.item .remove{
+  text-align: center;
+  height: 30%;
+  background-color:indianred;
+}
+.item .none{
+  text-align: center;
+  height: 20%;
 }
 
 ::-webkit-scrollbar {

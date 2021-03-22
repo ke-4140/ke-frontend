@@ -34,8 +34,14 @@ export function Editor() {
     console.log(e.target.getCurrentTime());
   }
 
-  function onFrameSelect(second) {
+  function seekTo(second) {
     console.log("seek to: ", second);
+    playerObj.seekTo(second);
+    playerObj.pauseVideo();
+  }
+
+  function playAt(second) {
+    console.log("play at: ", second);
     playerObj.seekTo(second);
     playerObj.playVideo();
   }
@@ -49,7 +55,8 @@ export function Editor() {
           <span>Instruction</span>
           <ol>
             <li> Add Keyframe by pressing a frame on Timeline </li>
-            <li> Remove keyframe by pressing a Keyframe on Timeline </li>
+            <li> Remove Keyframe by pressing a Keyframe on Timeline </li>
+            <li> Move Keyframe by dragging a Keyframe on Timeline </li>
             <li> Export when you feel good about all the Keyframes </li>
           </ol>
         </div>
@@ -57,7 +64,7 @@ export function Editor() {
       </div>
 
       {!isLoading ? (
-        <Timeline isLoading={isLoading} seconds={seconds} player={playerObj} onFrameSelect={onFrameSelect} />
+        <Timeline isLoading={isLoading} seconds={seconds} player={playerObj} seekTo={seekTo} playAt={playAt} />
       ) : (
         <></>
       )}

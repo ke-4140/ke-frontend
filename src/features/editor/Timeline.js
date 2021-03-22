@@ -8,7 +8,7 @@ const reorder = (list, startIndex, endIndex) => {
   return list;
 };
 
-export function Timeline({ seconds, player, onFrameSelect }) {
+export function Timeline({ seconds, player, seekTo, playAt}) {
   const [frames, setFrames] = useState(Array.from({ length: seconds }, (v, k) => k).map(k => ({
     id: `item-${k}`,
     value: "",
@@ -43,13 +43,21 @@ export function Timeline({ seconds, player, onFrameSelect }) {
     setFrames(reorderedFrames);
   }
 
-  function markKeyFrame(index) {
-    // frames[frameId].isKey=!frames[frameId].isKey;
-    const newFrames = [...frames];
+  function viewKeyFrame(index) {
+    seekTo(index);
+  }
 
+
+  function skipToKeyFrame(index) {
+    playAt(index);
+  }
+
+
+  function toggleKeyFrame(index) {
+
+    const newFrames = [...frames];
     newFrames[index].isKey = !newFrames[index].isKey;
     setFrames(newFrames);
-    onFrameSelect(index);
     var helperText = newFrames[index].isKey ? "Added" : "Removed";
     setStatusText(helperText + " frame at " + secondsToMinutes(index));
   }
@@ -99,13 +107,13 @@ export function Timeline({ seconds, player, onFrameSelect }) {
                       <div
                         class="item"
                         ref={provided.innerRef}
-                        onClick={() => markKeyFrame(index)}
                         disabled={frame.isKey ? false : true}
                         {...provided.draggableProps}
                         {...provided.dragHandleProps}
                         style={style}
                       >
-                        {frame.isKey ? '-' : ''}
+                        <div class="view" onDoubleClick={()=>skipToKeyFrame(index)} onClick={() => {frame.isKey ? viewKeyFrame(index) : toggleKeyFrame(index)}}></div>
+                        {frame.isKey ? (<div class="remove" onClick={() => toggleKeyFrame(index)}>-</div>) : (<div class="none"></div>)}
                       </div>
                     );
                   }}
