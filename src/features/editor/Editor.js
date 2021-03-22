@@ -4,10 +4,12 @@ import { Header } from '../../components/Header';
 import { Timeline } from './Timeline'
 import YouTube from 'react-youtube';
 import StyledContentLoader from 'styled-content-loader'
+import {
+  selectYoutubeURL
+} from '../systemSlice';
 
 export function Editor() {
-
-  const [youtubeID, setYoutubeID] = useState("iJDoc0kvXLc");
+  const youtubeURL = useSelector(selectYoutubeURL);
   const [playerObj, setPlayerObj] = useState(null);
   const [seconds, setSeconds] = useState(800);
   const [isLoading, setIsLoading] = useState(true);
@@ -51,7 +53,7 @@ export function Editor() {
             <li> Export when you feel good about all the Keyframes </li>
           </ol>
         </div>
-        <YouTube videoId={youtubeID} opts={opts} onReady={onReady} onStateChange={onStateChange} />
+        <YouTube videoId={youtubeURL.split('=')[1]} opts={opts} onReady={onReady} onStateChange={onStateChange} />
       </div>
 
       {!isLoading ? (

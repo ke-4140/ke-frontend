@@ -77,14 +77,16 @@ export function Timeline({ seconds, player, onFrameSelect }) {
         </div>
       </div>
 
-
+      <div class="progressBar">
+        <div class="progressNode" style={{ width: progress }} />
+      </div>
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable droppableId="drappable" direction="horizontal">
           {(provided) => (
             <div class="wrapper" ref={provided.innerRef} {...provided.droppableProps}>
-              <div class="progressBar">
+              {/* <div class="progressBar">
                 <div class="progressNode" style={{ width: progress  }} />
-              </div>
+              </div> */}
               {frames.map((frame, index) =>
                 <Draggable draggableId={frame.id} index={index} key={frame.id}>
                   {(provided, snapshot) => {

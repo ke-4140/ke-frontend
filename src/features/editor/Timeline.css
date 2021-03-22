@@ -2,11 +2,11 @@
   height: 110px;
   background-color: whitesmoke;
   display: flex;
+  align-items: 'center';
   overflow-x: scroll;
 }
 
 .progressBar {
-  position: absolute;
   height: 5px;
   width: 100%;
   background-color:snow;

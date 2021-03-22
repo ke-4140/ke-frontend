@@ -3,9 +3,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import {
   decrement,
   increment,
-  incrementByAmount,
   incrementAsync,
   selectCount,
+  incrementByAmount
 } from './counterSlice';
 import styles from './Counter.module.css';
 

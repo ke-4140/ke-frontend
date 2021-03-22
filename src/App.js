@@ -6,6 +6,8 @@ import { Uploader } from './features/uploader/Uploader';
 import './App.css';
 
 function App() {
+
+
   return (
     <div className='app'>
       <Header/>
