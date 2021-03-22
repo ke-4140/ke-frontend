@@ -54,9 +54,11 @@ export function Editor() {
         <div>
           <span>Instruction</span>
           <ol>
-            <li> Add Keyframe by pressing a frame on Timeline </li>
-            <li> Remove Keyframe by pressing a Keyframe on Timeline </li>
-            <li> Move Keyframe by dragging a Keyframe on Timeline </li>
+            <li> Add Keyframe by clicking a frame on Timeline. </li>
+            <li> Remove Keyframe by clicking (-) on it. </li>
+            <li> Move Keyframe by dragging it on Timeline </li>
+            <li> Click on Keyframe to view the Keyframe on Video Player </li>
+            <li> Double click on frame to play from it</li>
             <li> Export when you feel good about all the Keyframes </li>
           </ol>
         </div>

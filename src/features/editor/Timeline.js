@@ -44,11 +44,13 @@ export function Timeline({ seconds, player, seekTo, playAt}) {
   }
 
   function viewKeyFrame(index) {
+    setProgress(index);
     seekTo(index);
   }
 
 
   function skipToKeyFrame(index) {
+    setProgress(index);
     playAt(index);
   }
 
@@ -58,8 +60,8 @@ export function Timeline({ seconds, player, seekTo, playAt}) {
     const newFrames = [...frames];
     newFrames[index].isKey = !newFrames[index].isKey;
     setFrames(newFrames);
-    var helperText = newFrames[index].isKey ? "Added" : "Removed";
-    setStatusText(helperText + " frame at " + secondsToMinutes(index));
+    var helperText = newFrames[index].isKey ? "added" : "removed";
+    setStatusText("Last " + helperText + " keyframe at " + secondsToMinutes(index));
   }
 
   function secondsToMinutes(s) {
@@ -75,7 +77,7 @@ export function Timeline({ seconds, player, seekTo, playAt}) {
         <span>Timeline </span>
 
         <div class="controlButtons">
-          <span> {statusText} /{secondsToMinutes(seconds)} </span>
+          <span> {secondsToMinutes(Math.floor(progress))} /{secondsToMinutes(seconds)} </span>
           <button onClick={() => changeWidth(width + 10)}>
             +
           </button>
@@ -124,6 +126,7 @@ export function Timeline({ seconds, player, seekTo, playAt}) {
           )}
         </Droppable>
       </DragDropContext>
+      <div class="helperText">{statusText}   </div>
     </div>
   );
 }
