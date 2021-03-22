@@ -31,12 +31,13 @@ export function Timeline() {
       result.destination.index
     );
     setFrames(reorderedFrames);
-
   }
 
-  function markKeyFrame (frameId){
-    console.log(frames);
-    frames[frameId].isKey=!frames[frameId].isKey;
+  function markKeyFrame (index) {
+    // frames[frameId].isKey=!frames[frameId].isKey;
+    const newFrames = [...frames];
+    newFrames[ index ].isKey = !newFrames[ index ].isKey;
+    setFrames(newFrames);
   }
   return (
     <div>
@@ -72,7 +73,7 @@ export function Timeline() {
                         {...provided.dragHandleProps}
                         style={style}
                       >
-                        {frame.isKey? 'x':''}
+                        {frame.isKey? '':''}
                       </div>
                     );
                   }}
