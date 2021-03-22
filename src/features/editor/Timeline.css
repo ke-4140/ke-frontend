@@ -9,11 +9,11 @@
 .progressBar {
   height: 5px;
   width: 100%;
-  background-color:snow;
+  background-color:lightgray;
 }
 .progressNode {
   height: 5px;
-  background-color:slategray;
+  background-color:indianred;
 }
 
 

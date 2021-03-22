@@ -88,7 +88,8 @@ export function Timeline({ seconds, player, seekTo, playAt}) {
       </div>
 
       <div class="progressBar">
-        <div class="progressNode" style={{ width: progress }} />
+        {console.log(progress/seconds)}
+        <div class="progressNode" style={{ width: `${progress/seconds*100}%` }} />
       </div>
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable droppableId="drappable" direction="horizontal">
