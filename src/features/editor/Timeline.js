@@ -9,26 +9,12 @@ const reorder = (list, startIndex, endIndex) => {
 };
 
 export function Timeline() {
-
-  const [frames, setFrames] = useState([
-    {
-      id: "1",
-      value: "a"
-    },
-    {
-      id: "2",
-      value: "b"
-    },
-    {
-      id: "3",
-      value: "c"
-    },
-    {
-      id: "4",
-      value: "d"
-    },
-  ]);
-  const [width, changeWidth] = useState(500);
+  const [frames, setFrames] = useState(Array.from({ length: 200 }, (v, k) => k).map(k => ({
+    id: `item-${k}`,
+    value: "",
+    isKey: false
+  })));
+  const [width, changeWidth] = useState(20);
 
   function onDragEnd(result) {
     if (!result.destination) {
@@ -47,7 +33,11 @@ export function Timeline() {
     setFrames(reorderedFrames);
 
   }
-  console.log(width);
+
+  function markKeyFrame (frameId){
+    console.log(frames);
+    frames[frameId].isKey=!frames[frameId].isKey;
+  }
   return (
     <div>
       <div class="controlPane">
@@ -70,17 +60,19 @@ export function Timeline() {
                   {(provided, snapshot) => {
                     var style = {
                       width: width,
+                      background: frame.isKey ? 'red' : 'beige',
                       ...provided.draggableProps.style,
                     }
                     return (
                       <div
                         class="item"
                         ref={provided.innerRef}
+                        onClick={()=>markKeyFrame(index)}
                         {...provided.draggableProps}
                         {...provided.dragHandleProps}
                         style={style}
                       >
-                        {frame.value}
+                        {frame.isKey? 'x':''}
                       </div>
                     );
                   }}
