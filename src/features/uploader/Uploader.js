@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Card } from '../../components/Card'
 import { useHistory } from "react-router-dom";
+import { Button } from '../../components/Button'
 import {
   setYoutubeURL
 } from "../systemSlice";
@@ -29,12 +30,12 @@ export function Uploader() {
           <span>Paste Youtube Link: </span>
           <input type="text" value={link} onChange={(e)=> setLink(e.target.value)}></input>
         </div>
-        <span> or </span>
+        {/* <span> or </span>
         <div style={{display:'flex', flexDirection:'row', justifyContent: 'space-between'}}>
           <span>Upload Video:  </span>
           <input type="file" name="VideoToUpload" id="VideoToUpload" />
-        </div>
-        <input type="submit" value="Edit Now" name="submit" onClick={()=>submit()} />
+        </div> */}
+        <Button label="Ready to Edit" onClick={()=>submit()}></Button>
       </Card>
     </div>
   );

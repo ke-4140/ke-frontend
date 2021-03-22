@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Header } from '../../components/Header';
+import { Button } from '../../components/Button';
 import { Timeline } from './Timeline'
 import YouTube from 'react-youtube';
 import StyledContentLoader from 'styled-content-loader'
@@ -49,8 +50,11 @@ export function Editor() {
   return (
     <div>
       <Header />
-
-      <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', height: '400px', margin: 20 }}>
+      <div style={{display: 'flex', marginRight: 20, marginBottom: 10, justifyContent: 'flex-end'}}>
+        <Button label="Reset Keyframes"></Button>
+        <Button label="Export"></Button>
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', height: '400px', marginInline: 20 }}>
         <div>
           <span>Instruction</span>
           <ol>
