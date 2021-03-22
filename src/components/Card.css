@@ -1,7 +1,11 @@
 .card {
   border-radius: 30px;
   display: flex;
-  justify-content: center;
+  justify-content: space-between ;
   align-items: center;
   flex-direction: column;
+}
+
+span {
+  font-family: "Oswald";
 }

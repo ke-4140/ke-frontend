@@ -14,7 +14,7 @@ export function Header() {
   return (
     <header>
       <div className="topNavBar">
-        <div className="logo">KE</div>
+        <div><Link className="logo" to="/">KE</Link></div>
         <div>
           <Link className="tabItem" to="/">Home</Link>
           <Link className="tabItem" to="/uploader">Upload</Link>

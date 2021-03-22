@@ -9,14 +9,14 @@ import { useSelector, useDispatch } from 'react-redux';
 // } from './counterSlice';
 // import styles from './Counter.module.css';
 
-export function Download() {
+export function Export() {
   // const count = useSelector(selectCount);
   // const dispatch = useDispatch();
   // const [incrementAmount, setIncrementAmount] = useState('2');
 
   return (
     <div>
-      <span>Download</span>
+      <span>Export</span>
     </div>
   );
 }

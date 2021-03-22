@@ -1,0 +1,36 @@
+.wrapper {
+  max-height: 120px;
+  display: flex;
+  overflow-x: auto;
+  background-color: whitesmoke;
+}
+
+.wrapper .item {
+  font-family: "Oswald";
+  height: 110px; 
+  line-height: 110px;
+  background-color:beige;
+  text-align: center;
+  border: 1px solid white;
+}
+
+.controlPane {
+  display:flex;
+  flex-direction: row ;
+  justify-content: space-between;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.controlPane .controlButtons {
+  display:flex;
+  flex-direction:row;
+}
+
+.controlPane .controlButtons button{
+  width: 30px;
+  height: 30px;
+  min-width: 5px;
+  margin-left: 5px;
+  margin-right: 5px;
+}

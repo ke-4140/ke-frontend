@@ -9,9 +9,9 @@ import { Counter } from './features/counter/Counter';
 import { Uploader } from './features/uploader/Uploader';
 import { Editor } from './features/editor/Editor';
 import { Preview } from './features/preview/Preview';
-import { Download } from './features/download/Download';
-
+import { Export } from './features/export/Export';
 import * as serviceWorker from './serviceWorker';
+
 import 'fontsource-roboto';
 import {
   BrowserRouter as Router,
@@ -22,16 +22,16 @@ import {
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <Router>
-        <Switch>
-          <Route exact path='/' component={App}></Route>
-          <Route exact path='/counter' component={Counter}></Route>
-          <Route exact path='/uploader' component={Uploader}></Route>
-          <Route exact path='/editor' component={Editor}></Route>
-          <Route exact path='/preview' component={Preview}></Route>
-          <Route exact path='/download' component={Download}></Route>
-        </Switch>
-      </Router>
+          <Router>
+            <Switch>
+              <Route exact path='/' component={App}></Route>
+              <Route exact path='/counter' component={Counter}></Route>
+              <Route exact path='/uploader' component={Uploader}></Route>
+              <Route exact path='/editor' component={Editor}></Route>
+              <Route exact path='/preview' component={Preview}></Route>
+              <Route exact path='/export' component={Export}></Route>
+            </Switch>
+          </Router>
     </Provider>
   </React.StrictMode>,
   document.getElementById('root')
