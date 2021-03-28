@@ -6,7 +6,7 @@ export function Card({
   iconBefore, //icon before label
   label, //text 
   iconAfter, //icon after label
-  width = '300px',
+  width = '250px',
   height = '300px',
   flexDirection = 'row', // (large, medium, small)
   children

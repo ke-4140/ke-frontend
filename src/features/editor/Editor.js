@@ -59,11 +59,15 @@ export function Editor() {
           <span>Instruction</span>
           <ol>
             <li> Add Keyframe by clicking a frame on Timeline. </li>
-            <li> Remove Keyframe by clicking (-) on it. </li>
+            <li> Remove Keyframe by clicking (x) on it. </li>
             <li> Move Keyframe by dragging it on Timeline </li>
             <li> Click on Keyframe to view the Keyframe on Video Player </li>
             <li> Double click on frame to play from it</li>
             <li> Export when you feel good about all the Keyframes </li>
+            <ul> @TODO: Add current playing frame </ul>
+            <ul> @TODO: Match progress bar with Timeline </ul>
+            <ul> @TODO: Persist redux (cache link) </ul>
+            <ul> @TODO: Differentiate server-created keyframes and user-created keyframes </ul>
           </ol>
         </div>
         <YouTube videoId={youtubeURL.split('=')[1]} opts={opts} onReady={onReady} onStateChange={onStateChange} />

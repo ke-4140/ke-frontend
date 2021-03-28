@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Card } from '../../components/Card'
 import { useHistory } from "react-router-dom";
 import { Button } from '../../components/Button'
+import '../../App.css';
 import {
   setYoutubeURL
 } from "../systemSlice";
@@ -25,10 +26,10 @@ export function Uploader() {
   }
   return (
     <div>
-      <Card flexDirection='column' width="800px" height="100px">
+      <Card flexDirection='row' width="814px" height="100px">
         <div>
           <span>Paste Youtube Link: </span>
-          <input type="text" value={link} onChange={(e)=> setLink(e.target.value)}></input>
+          <input class="input" type="text" value={link} onChange={(e)=> setLink(e.target.value)}></input>
         </div>
         {/* <span> or </span>
         <div style={{display:'flex', flexDirection:'row', justifyContent: 'space-between'}}>

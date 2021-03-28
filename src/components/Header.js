@@ -16,11 +16,11 @@ export function Header() {
       <div className="topNavBar">
         <div><Link className="logo" to="/">KE</Link></div>
         <div>
-          <Link className="tabItem" to="/">Home</Link>
+          {/* <Link className="tabItem" to="/">Home</Link>
           <Link className="tabItem" to="/uploader">Upload</Link>
           <Link className="tabItem" to="/editor">Editor</Link>
           <Link className="tabItem" to="/preview">Preview</Link>
-          <Link className="tabItem" to="/download">Download</Link>
+          <Link className="tabItem" to="/download">Download</Link> */}
         </div>
         
       </div>

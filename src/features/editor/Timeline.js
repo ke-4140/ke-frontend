@@ -12,6 +12,7 @@ export function Timeline({ seconds, player, seekTo, playAt}) {
   const [frames, setFrames] = useState(Array.from({ length: seconds }, (v, k) => k).map(k => ({
     id: `item-${k}`,
     value: "",
+    isExtracted: true,
     isKey: false
   })));
   const [width, changeWidth] = useState(10);
@@ -116,7 +117,7 @@ export function Timeline({ seconds, player, seekTo, playAt}) {
                         style={style}
                       >
                         <div class="view" onDoubleClick={()=>skipToKeyFrame(index)} onClick={() => {frame.isKey ? viewKeyFrame(index) : toggleKeyFrame(index)}}></div>
-                        {frame.isKey ? (<div class="remove" onClick={() => toggleKeyFrame(index)}>-</div>) : (<div class="none"></div>)}
+                        {frame.isKey ? (<div class="remove" style={{backgroundColor: frame.isExtracted ? 'aquamarine' : 'indianred'}} onClick={() => toggleKeyFrame(index)}>x</div>) : (<div class="none"></div>)}
                       </div>
                     );
                   }}
