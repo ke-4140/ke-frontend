@@ -52,7 +52,7 @@ export function Editor() {
       <Header />
       <div style={{display: 'flex', marginRight: 20, marginBottom: 10, justifyContent: 'flex-end'}}>
         <Button label="Reset Keyframes"></Button>
-        <Button label="Export"></Button>
+        <Button label="Preview PDF"></Button>
       </div>
       <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', height: '400px', marginInline: 20 }}>
         <div>
