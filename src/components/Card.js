@@ -12,7 +12,7 @@ export function Card({
   children
 }) {
   return (
-    <div type="card" className="card" style={{ width: width, height: height, flexDirection: flexDirection}} onClick={onPress}>
+    <div type="card" className="card" style={{ width: width, height: height, flexDirection: flexDirection, justifyContent: 'space-around' }} onClick={onPress}>
       {children}
     </div>
   )

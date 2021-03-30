@@ -5,9 +5,7 @@ import { Button } from '../../components/Button';
 import { Timeline } from './Timeline'
 import YouTube from 'react-youtube';
 import StyledContentLoader from 'styled-content-loader'
-import {
-  selectYoutubeURL
-} from '../systemSlice';
+import { selectYoutubeURL } from '../systemSlice';
 
 export function Editor() {
   const youtubeURL = useSelector(selectYoutubeURL);
