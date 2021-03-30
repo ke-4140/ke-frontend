@@ -30,9 +30,10 @@ export const systemSlice = createSlice({
 
 export const { setYoutubeURL, setFrames, setFrameScriptDuple, setPdfTotalPages, setContents} = systemSlice.actions;
 
-export const fetchKeyFrames = seconds => dispatch => {
+export const fetchKeyFrames = (x) => dispatch => {
 
-  var testFrames = Array.from(seconds, (v, k) => k).map(k => ({
+  var seconds = 1000;
+  var testFrames = Array.from({length: seconds}, (v, k) => k).map(k => ({
     id: `f-${k}`,
     label: "",
     isExtracted: false,
@@ -43,6 +44,7 @@ export const fetchKeyFrames = seconds => dispatch => {
     testFrames[i].isExtracted = true;
     testFrames[i].isKey = true;
   }
+  console.log(testFrames);
   //fetch from server
   dispatch(setFrames(testFrames));
 };

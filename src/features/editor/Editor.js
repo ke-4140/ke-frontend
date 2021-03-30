@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
+import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
 import { Header } from '../../components/Header';
 import { Button } from '../../components/Button';
 import { Timeline } from './Timeline'
 import YouTube from 'react-youtube';
 import StyledContentLoader from 'styled-content-loader'
-import { selectYoutubeURL } from '../systemSlice';
+import { selectYoutubeURL, fetchKeyFrames} from '../systemSlice';
 
 export function Editor() {
+  const dispatch = useDispatch();
+  const history = useHistory();
   const youtubeURL = useSelector(selectYoutubeURL);
   const [playerObj, setPlayerObj] = useState(null);
   const [seconds, setSeconds] = useState(800);
@@ -45,12 +48,23 @@ export function Editor() {
     playerObj.playVideo();
   }
 
+  function saveAndPreview(){
+    history.push("/preview");
+  }
+
+
+  function resetKeyframes(){
+    //dispatch() 
+  }
+
+
+
   return (
     <div>
       <Header />
       <div style={{display: 'flex', marginRight: 20, marginBottom: 10, justifyContent: 'flex-end'}}>
-        <Button label="Reset Keyframes"></Button>
-        <Button label="Preview PDF"></Button>
+        <Button onClick={()=> resetKeyframes()} label="Reset Keyframes"></Button>
+        <Button onClick={()=> saveAndPreview()} label="Preview PDF"></Button>
       </div>
       <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', height: '400px', marginInline: 20 }}>
         <div>

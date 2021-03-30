@@ -12,6 +12,8 @@ export function Preview() {
   const contents = useSelector(selectContents);
   const pdfTotalPages = useSelector(selectPdfTotalPages);
   const [title, setTitle] = useState('New Note');
+  const [enableTranscript, switchEnableTranscript] = useState(true);
+  const [enableKFA, switchEnableKFA] = useState(false);
 
   useEffect(() => {
     dispatch(processFrameScriptDuple(4)); //reduce frame scripts duples to group of 4. 
@@ -34,35 +36,34 @@ export function Preview() {
             <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
               <div>Export Format:</div>
             </div>
-            < div>
+            <div onChange={() => switchEnableTranscript(!enableTranscript)}>
               <div>
-                <input type="radio" id="ft" name="gender" value="ft" />
+                <input type="radio" id="ft" name="ft" value="ft" checked={enableTranscript} />
                 <label for="ft">Frames and Transcript</label>
               </div>
               <div>
-                <input type="radio" id="fe" name="gender" value="fe" />
+                <input type="radio" id="fe" name="fe" value="fe" checked={!enableTranscript} />
                 <label for="fe">Frames and Empty Area for Notetaking</label>
               </div>
             </div>
             <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-              <div>Enable Transcript: </div>
-              <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike"></input>
-            </div>
-            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
               <div>Enable Key Frame Analysis: </div>
-              <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike"></input>
+              <input type="checkbox" id="KFA" name="KFA" checked={enableKFA} onChange={() => switchEnableKFA(!enableKFA)}></input>
             </div>
           </div>
         </Card>
+
         <Card width={800} height={600} flexDirection={'row'}>
           <div>Preview</div>
           <div style={{ height: 600, overflowY: 'scroll' }}>
-            
+
+            {enableKFA ? (<PDFTemplate title={title} pageNo={0} KFA={true} />) : (<> </>)}
+
             {contents ? (
               contents.map((contents, index) =>
-                <PDFTemplate title={title} contents={contents} pageNo={index+1} totalPagesNum={pdfTotalPages} />
+                <PDFTemplate title={title} contents={contents} pageNo={index + 1} totalPagesNum={pdfTotalPages} enableKFA={enableKFA} enableTranscript={enableTranscript} />
               )
-            ): <StyledContentLoader/>}
+            ) : <StyledContentLoader />}
 
 
           </div>

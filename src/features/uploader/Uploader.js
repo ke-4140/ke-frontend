@@ -4,7 +4,7 @@ import { Card } from '../../components/Card'
 import { useHistory } from "react-router-dom";
 import { Button } from '../../components/Button'
 import '../../App.css';
-import { setYoutubeURL } from "../systemSlice";
+import { setYoutubeURL, fetchKeyFrames} from "../systemSlice";
 
 export function Uploader() {
   // const count = useSelector(selectCount);
@@ -19,6 +19,7 @@ export function Uploader() {
 
     //@TODO: error checking if its a youtube link
     dispatch(setYoutubeURL(link));
+    // dispatch(fetchKeyFrames(12));
     console.log(link);
     history.push("/editor");
   }
