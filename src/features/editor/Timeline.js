@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import styles from './Timeline.css';
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
+import InfiniteScroll from 'react-infinite-scroll-component';
+
 const reorder = (list, startIndex, endIndex) => {
   const [removed] = list.splice(startIndex, 1);
   list.splice(endIndex, 0, removed); 

@@ -16,7 +16,7 @@ export function Export() {
 
   return (
     <div>
-      <span>Export</span>
+      <span>Download PDF</span>
     </div>
   );
 }

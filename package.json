@@ -18,7 +18,6 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
     "react-youtube": "^7.13.1",
-    "styled-content-loader": "^1.2.2",
     "webpack": "4.44.2",
     "webpack-cli": "^4.5.0"
   },

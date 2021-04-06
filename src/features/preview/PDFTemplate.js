@@ -24,7 +24,7 @@ export function PDFTemplate({
     return utc;
   }
   return (
-    <div style={{ height: 842 - 48, width: 595 - 48, border: '1px solid black', padding: 24, margin: 12 }}>
+    <div style={{ width: 595 - 44, height: 595 *1.618 - 44,   border: '1px solid black', padding: 24, margin: 12 }}>
       <div style={{ display: 'flex', height: 20, justifyContent: 'flex-end' }}>
         <div>{logo} </div>
       </div>

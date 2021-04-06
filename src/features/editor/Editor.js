@@ -5,7 +5,6 @@ import { Header } from '../../components/Header';
 import { Button } from '../../components/Button';
 import { Timeline } from './Timeline'
 import YouTube from 'react-youtube';
-import StyledContentLoader from 'styled-content-loader'
 import { selectYoutubeURL, fetchKeyFrames} from '../systemSlice';
 
 export function Editor() {
@@ -51,8 +50,7 @@ export function Editor() {
   function saveAndPreview(){
     history.push("/preview");
   }
-
-
+  
   function resetKeyframes(){
     //dispatch() 
   }
@@ -76,10 +74,11 @@ export function Editor() {
             <li> Click on Keyframe to view the Keyframe on Video Player </li>
             <li> Double click on frame to play from it</li>
             <li> Export when you feel good about all the Keyframes </li>
+            <ul> @DONE: Differentiate server-created keyframes and user-created keyframes </ul>
             <ul> @TODO: Add current playing frame </ul>
             <ul> @TODO: Match progress bar with Timeline </ul>
             <ul> @TODO: Persist redux (cache link) </ul>
-            <ul> @TODO: Differentiate server-created keyframes and user-created keyframes </ul>
+
           </ol>
         </div>
         <YouTube videoId={youtubeURL.split('=')[1]} opts={opts} onReady={onReady} onStateChange={onStateChange} />
