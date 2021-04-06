@@ -24,6 +24,7 @@ export function Preview() {
     var printContents = document.getElementById('toPrint').innerHTML;
     var originalContents = document.getElementById('original').innerHTML;
     document.body.innerHTML = printContents;
+    document.title = title;
     window.print();
     document.body.innerHTML = originalContents;
   }

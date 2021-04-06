@@ -17,14 +17,14 @@ export function PDFTemplate({
     frame: "https://images.unsplash.com/photo-1616788590183-c6b1d59a9b78?ixid=MXwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw1fHx8ZW58MHx8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60",
     transcript: "testing script 4",
   }]
-  , pageNo = 1, totalPagesNum = 20, title = "Nice Slides", logo = "KE", enableTranscript, KFA=false }) {
+  , pageNo = 1, totalPagesNum = 20, title = "Nice Slides", logo = "KE", enableTranscript, KFA = false }) {
 
   function getToday() {
     var utc = new Date().toJSON().slice(0, 10).replace(/-/g, '/');
     return utc;
   }
   return (
-    <div style={{ width: 595 - 44, height: 595 *1.618 - 44,   border: '1px solid black', padding: 24, margin: 12 }}>
+    <div style={{ width: 595 - 44, height: 595 * 1.618 - 44, border: '1px solid black', padding: 24, margin: 12 }}>
       <div style={{ display: 'flex', height: 20, justifyContent: 'flex-end' }}>
         <div>{logo} </div>
       </div>
@@ -34,9 +34,9 @@ export function PDFTemplate({
       </div>
 
       {KFA ? (
-      <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'row', marginTop: 16, marginBottom: 16, border: '1px solid black', weight: 546, height: 640 }} >
-        KFA
-      </div>) : (
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'row', marginTop: 16, marginBottom: 16, border: '1px solid black', weight: 546, height: 640 }} >
+          KFA
+        </div>) : (
         <div>
           {contents.map((content, index) => (
 
@@ -57,6 +57,15 @@ export function PDFTemplate({
 
           ))}
         </div>)}
+
+      <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', margin: 16,  width: 595}}>
+
+        <div> Footnote:</div>
+        <textarea rows="7" style={{ resize: 'none', width: 500}}>
+          
+        </textarea>
+
+      </div>
 
       <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
 
