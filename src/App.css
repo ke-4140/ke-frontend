@@ -20,6 +20,12 @@
 
 
 }
+@media print {
+  .pagebreak {
+    page-break-before: always;
+  }
+}
+
 @media (prefers-reduced-motion: no-preference) {
 .app h1 {
   text-align: center;

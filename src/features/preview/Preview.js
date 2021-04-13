@@ -21,21 +21,26 @@ export function Preview() {
     dispatch(processFrameScriptTuple(4)); //reduce frame scripts duples to group of 4. 
   }, []);
 
+
+
   function triggerPrint() {
     document.getElementById('toPrint').style.overflow = 'unset';
-    document.getElementById('hide').style.minHeight = 7000000;
     // document.getElementById('hide').style.visibility = 'hidden';
     document.getElementById('hide').style.display = 'none';
+    document.getElementById('hideButtons').style.display = 'none';
+
 
     // var originalContents = document.getElementById('original').innerHTML;
     // document.body.innerHTML = printContents;
     document.title = title;
     window.print();
+
     document.getElementById('hide').style.display = 'flex';
+    document.getElementById('hideButtons').style.display = 'flex';
     document.getElementById('toPrint').style.overflow = 'scroll';
   }
 
-  function finishPreview(){
+  function finishPreview() {
     history.push("/");
   }
 
@@ -44,7 +49,7 @@ export function Preview() {
 
       <Header />
 
-      <div style={{ display: 'flex', marginRight: 20, marginBottom: 10, justifyContent: 'flex-end' }}>
+      <div id='hideButtons' style={{ display: 'flex', marginRight: 20, marginBottom: 10, justifyContent: 'flex-end' }}>
         <Button label="Back"></Button>
         <Button label="Finish" onClick={() => finishPreview()}></Button>
       </div>
@@ -74,18 +79,21 @@ export function Preview() {
           </div>
           <Button label="Print as PDF" onClick={() => triggerPrint()}></Button>
         </Card>
-        </div>
-
-        <div id="toPrint" style={{ alignSelf: 'center', height: 600, overflowY: 'scroll', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginInline: 20 }}>
-          {enableKFA ? (<PDFTemplate title={title} pageNo={0} KFA={true} />) : (<> </>)}
-
-          {contents ? (
-            contents.map((contents, index) =>
-              <PDFTemplate key={index} title={title} contents={contents} pageNo={index + 1} totalPagesNum={pdfTotalPages} enableKFA={enableKFA} enableTranscript={enableTranscript} />
-            )
-          ) : <div>loading...</div>}
-
-        </div>
       </div>
+
+      <div id="toPrint" style={{ height: 600, overflowY: 'scroll', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginInline: 20 }}>
+        {enableKFA ? (<PDFTemplate title={title} KFA={true} />) : (<> </>)}
+
+        {contents ? (
+          contents.map((contents, index) =>
+            <>
+              <PDFTemplate key={index} title={title} contents={contents} enableKFA={enableKFA} enableTranscript={enableTranscript} />
+              <div class="pagebreak"> </div>
+            </>
+          )
+        ) : <div>loading...</div>}
+
+      </div>
+    </div>
   );
 }
