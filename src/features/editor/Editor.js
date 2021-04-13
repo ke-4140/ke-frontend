@@ -5,13 +5,15 @@ import { Header } from '../../components/Header';
 import { Button } from '../../components/Button';
 import { Timeline } from './Timeline'
 import YouTube from 'react-youtube';
-import { selectYoutubeURL, fetchKeyFrames, getJobStatus} from '../systemSlice';
+import { selectJobIsCompleted, selectYoutubeURL, getJobStatus } from '../systemSlice';
 
 export function Editor() {
   const dispatch = useDispatch();
   const history = useHistory();
+  const jobIsCompleted = useSelector(selectJobIsCompleted);
   const youtubeURL = useSelector(selectYoutubeURL);
   const [playerObj, setPlayerObj] = useState(null);
+  const [intervalID, setIntervalID] = useState(null);
   const [seconds, setSeconds] = useState(800);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -22,6 +24,24 @@ export function Editor() {
       autoplay: 1,
     },
   };
+
+  // calling dispatch(getJobStatus()) every 5 seconds
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      if (!jobIsCompleted) {
+        dispatch(getJobStatus());
+        console.log("fetch new frames every 5 seconds")
+      }
+    }
+      , 5000);
+
+      setIntervalID(intervalId);
+  }, []); //stop when job is finished 
+
+  useEffect(() => {
+    clearInterval(intervalID);
+  }, [jobIsCompleted]); //stop when job is finished 
+
 
   const onReady = (e) => {
     // console.log(e.target);
@@ -47,31 +67,21 @@ export function Editor() {
     playerObj.playVideo();
   }
 
-  function saveAndPreview(){
+  function saveAndPreview() {
     history.push("/preview");
   }
-  
-  function resetKeyframes(){
+
+  function resetKeyframes() {
     //dispatch() 
   }
 
-  // calling dispatch(getJobStatus()) every 5 seconds
-  useEffect(() => {
-    const interval = setInterval(() => {
-      dispatch(getJobStatus());
-      console.log("fetch new frames every 5 seconds")
-    }
-      , 5000);
-    return () => clearInterval(interval);
-  }, []); //stop when job is finished 
-  
 
   return (
     <div>
       <Header />
-      <div style={{display: 'flex', marginRight: 20, marginBottom: 10, justifyContent: 'flex-end'}}>
-        <Button onClick={()=> resetKeyframes()} label="Reset Keyframes"></Button>
-        <Button onClick={()=> saveAndPreview()} label="Preview PDF"></Button>
+      <div style={{ display: 'flex', marginRight: 20, marginBottom: 10, justifyContent: 'flex-end' }}>
+        <Button onClick={() => resetKeyframes()} label="Reset Keyframes"></Button>
+        <Button onClick={() => saveAndPreview()} label="Preview PDF"></Button>
       </div>
       <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', height: '400px', marginInline: 20 }}>
         <div>
@@ -87,7 +97,7 @@ export function Editor() {
             <ul> @TODO: Add current playing frame </ul>
             <ul> @TODO: Match progress bar with Timeline </ul>
             <ul> @TODO: Persist redux (cache link) </ul>
-
+            <ul> Job completed?  </ul>
           </ol>
         </div>
         <YouTube videoId={youtubeURL.split('=')[1]} opts={opts} onReady={onReady} onStateChange={onStateChange} />
