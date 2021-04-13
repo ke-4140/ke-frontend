@@ -3,7 +3,7 @@ import styles from './Timeline.css';
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { useSelector, useDispatch } from 'react-redux';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { selectYoutubeURL, fetchKeyFrames, selectFrames} from '../systemSlice';
+import { selectYoutubeURL, selectKeyFrame, selectFrames} from '../systemSlice';
 
 const reorder = (list, startIndex, endIndex) => {
   const [removed] = list.splice(startIndex, 1);
@@ -12,6 +12,7 @@ const reorder = (list, startIndex, endIndex) => {
 };
 
 export function Timeline({ seconds, player, seekTo, playAt}) {
+  const dispatch = useDispatch();
   const frames = useSelector(selectFrames);
   const [width, changeWidth] = useState(10);
   const [statusText, setStatusText] = useState("");
@@ -54,12 +55,13 @@ export function Timeline({ seconds, player, seekTo, playAt}) {
   }
 
 
-  function toggleKeyFrame(index) {
-
-    const newFrames = [...frames];
-    newFrames[index].isKey = !newFrames[index].isKey;
-    // setFrames(newFrames);
-    var helperText = newFrames[index].isKey ? "added" : "removed";
+  function toggleKeyFrame(index, status = false) {
+    console.log('toggle:' + index);
+    // const newFrames = [...frames];
+    // newFrames[index].isKey = !newFrames[index].isKey;
+    status = !status;
+    dispatch(selectKeyFrame({index: index, status: status}));
+    var helperText = status ? "added" : "removed";
     setStatusText("Last " + helperText + " keyframe at " + secondsToMinutes(index));
   }
 
@@ -114,8 +116,8 @@ export function Timeline({ seconds, player, seekTo, playAt}) {
                         {...provided.dragHandleProps}
                         style={style}
                       >
-                        <div class="view" onDoubleClick={()=>skipToKeyFrame(index)} onClick={() => {frame.isKey ? viewKeyFrame(index) : toggleKeyFrame(index)}}></div>
-                        {frame.isKey ? (<div class="remove" style={{backgroundColor: frame.isExtracted ? 'aquamarine' : 'indianred'}} onClick={() => toggleKeyFrame(index)}>x</div>) : (<div class="none"></div>)}
+                        <div class="view" onDoubleClick={()=>skipToKeyFrame(index)} onClick={() => {frame.isKey ? viewKeyFrame(index) : toggleKeyFrame(index, frame.isKey )}}></div>
+                        {frame.isKey ? (<div class="remove" style={{backgroundColor: frame.isExtracted ? 'aquamarine' : 'indianred'}} onClick={() => toggleKeyFrame(index, frame.isKey)}>x</div>) : (<div class="none"></div>)}
                       </div>
                     );
                   }}

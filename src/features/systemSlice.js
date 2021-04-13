@@ -37,7 +37,7 @@ export const systemSlice = createSlice({
     },
     selectKeyFrame: (state, action) => {
       state.frames = state.frames.map(
-        (frame, i) => i === action.payload ? { ...frame, isKey: true } : frame);
+        (frame, i) => i === action.payload.index ? { ...frame, isKey: action.payload.status } : frame);
     },
     completesJob: (state, action) => {
       state.jobIsCompleted = true
