@@ -5,7 +5,7 @@ import { Header } from '../../components/Header';
 import { Button } from '../../components/Button';
 import { Timeline } from './Timeline'
 import YouTube from 'react-youtube';
-import { initializeFrames, selectExtractionProgress, selectJobIsCompleted, selectYoutubeURL, getJobStatus } from '../systemSlice';
+import { initializeFrames, selectExtractionProgress, selectJobIsCompleted, selectYoutubeURL, getJobStatus, setKeyFrames } from '../systemSlice';
 
 export function Editor() {
   const dispatch = useDispatch();
@@ -17,6 +17,7 @@ export function Editor() {
   const [intervalID, setIntervalID] = useState(null);
   const [seconds, setSeconds] = useState(800);
   const [isLoading, setIsLoading] = useState(true);
+  const [previewAddr, setPreviewAddr] = useState("");
 
   const opts = {
     height: '390',
@@ -77,6 +78,11 @@ export function Editor() {
     dispatch(initializeFrames(seconds)) ;
   }
 
+  function hovered(img){
+    console.log(img);
+    setPreviewAddr(img);
+  }
+
 
   return (
     <div>
@@ -96,13 +102,17 @@ export function Editor() {
             <li> Double click on frame to play from it</li>
             <li> Export when you feel good about all the Keyframes </li>
           </ol>
+          <span>Keyframe Preview</span>
+          <div style={{ display: 'flex', border: '1px solid black', height: 146, width: 261, justifyContent: 'center', alignItems: 'center', marginLeft: 30  }}>
+                <img src={previewAddr} height={146} width={261} />
+          </div>
 
         </div>
         <YouTube videoId={youtubeURL.split('=')[1]} opts={opts} onReady={onReady} onStateChange={onStateChange} />
       </div>
 
       {!isLoading ? (
-        <Timeline extractionProgress={extractionProgress} isLoading={isLoading} seconds={seconds} player={playerObj} seekTo={seekTo} playAt={playAt} />
+        <Timeline extractionProgress={extractionProgress} isLoading={isLoading} seconds={seconds} player={playerObj} seekTo={seekTo} playAt={playAt} hoverPreview={(img)=>setPreviewAddr(img)} />
       ) : (
         <></>
       )}

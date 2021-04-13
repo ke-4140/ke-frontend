@@ -118,9 +118,6 @@ export const getJobStatus = () => (dispatch, getState) => {
         dispatch(completesJob());
         dispatch(setExtractionProgress(100));
       }
-
-
-
     })
     .catch(err => {
       // console.log(err.status);
@@ -144,7 +141,7 @@ export const fetchKeyFrames = (start) => (dispatch, getState) => {
   // console.log("frames a:", newFrames);
 
   keyframes.map((keyframe, index) => {
-    newFrames[keyframe.vid_time] = { ...newFrames[keyframe.vid_time], isExtracted: keyframe.userCreated ? false : true, isKey: true };
+    newFrames[keyframe.vid_time] = { ...newFrames[keyframe.vid_time], imgAddr: keyframe.img_addr, isExtracted: keyframe.userCreated ? false : true, isKey: true };
   });
 
   dispatch(setFrames(newFrames));
@@ -234,6 +231,7 @@ function compare(a, b) {
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of
 // in the slice file. For example: `useSelector((state) => state.counter.value)`
+
 export const setLoadedFramesNum = state => state.system.loadedFramesNum;
 export const selectJobIsCompleted = state => state.system.jobIsCompleted;
 export const selectExtractionProgress = state => state.system.extractionProgress;

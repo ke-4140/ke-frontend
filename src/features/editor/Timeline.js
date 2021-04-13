@@ -11,7 +11,7 @@ const reorder = (list, startIndex, endIndex) => {
   return list;
 };
 
-export function Timeline({ seconds, player, seekTo, playAt, extractionProgress}) {
+export function Timeline({ seconds, player, seekTo, playAt, extractionProgress, hoverPreview}) {
   const dispatch = useDispatch();
   const frames = useSelector(selectFrames);
   const loadedFramesNum = useSelector(setLoadedFramesNum);
@@ -39,7 +39,9 @@ export function Timeline({ seconds, player, seekTo, playAt, extractionProgress})
   }
 
 
-  function skipToKeyFrame(index) {
+  function skipToKeyFrame(index, img) {
+    console.log(img);
+    hoverPreview(img);
     setProgress(index);
     playAt(index);
   }
@@ -91,10 +93,11 @@ export function Timeline({ seconds, player, seekTo, playAt, extractionProgress})
         className="wrapper">
         {frames.slice(0, loadedFramesNum).map((frame, index) =>
           <div
+            onH
             class="item"
             style={{ display: 'flex', backgroundColor: frame.isKey ? 'lightgray' : 'white' }}
           >
-            <div class="view" style={{ display: 'flex', width: width, flex: 3 }} onDoubleClick={() => skipToKeyFrame(index)} onClick={() => { frame.isKey ? viewKeyFrame(index) : toggleKeyFrame(index, frame.isKey) }}></div>
+            <div class="view" style={{ display: 'flex', width: width, flex: 3 }} onDoubleClick={() => skipToKeyFrame(index, frame.imgAddr)} onClick={() => { frame.isKey ? viewKeyFrame(index) : toggleKeyFrame(index, frame.isKey) }}></div>
             {frame.isKey ? (<div class="remove" style={{ display: 'flex', justifyContent: 'center', backgroundColor: frame.isExtracted ? 'aquamarine' : 'pink', flex: 1 }} onClick={() => toggleKeyFrame(index, frame.isKey)}>x</div>) : (<div style={{ display: 'flex', flex: 0 }} class="none"></div>)}
           </div>
         )}
