@@ -20,7 +20,7 @@
 .item {
   font-family: "Oswald";
   height: 90px; 
-  border: 1px solid gray;
+  border: 1px solid gainsboro;
   border-width: 1;
   min-width: 10px;
   text-align: center;

@@ -3,15 +3,15 @@ import styles from './Timeline.css';
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { useSelector, useDispatch } from 'react-redux';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { selectYoutubeURL, selectKeyFrame, selectFrames} from '../systemSlice';
+import { selectYoutubeURL, selectKeyFrame, selectFrames } from '../systemSlice';
 
 const reorder = (list, startIndex, endIndex) => {
   const [removed] = list.splice(startIndex, 1);
-  list.splice(endIndex, 0, removed); 
+  list.splice(endIndex, 0, removed);
   return list;
 };
 
-export function Timeline({ seconds, player, seekTo, playAt}) {
+export function Timeline({ seconds, player, seekTo, playAt }) {
   const dispatch = useDispatch();
   const frames = useSelector(selectFrames);
   const [width, changeWidth] = useState(10);
@@ -60,7 +60,7 @@ export function Timeline({ seconds, player, seekTo, playAt}) {
     // const newFrames = [...frames];
     // newFrames[index].isKey = !newFrames[index].isKey;
     status = !status;
-    dispatch(selectKeyFrame({index: index, status: status}));
+    dispatch(selectKeyFrame({ index: index, status: status }));
     var helperText = status ? "ADDED" : "REMOVED";
     setStatusText("Last " + helperText + " keyframe at " + secondsToMinutes(index));
   }
@@ -90,44 +90,22 @@ export function Timeline({ seconds, player, seekTo, playAt}) {
 
       <div class="progressBar">
         {/* {console.log(progress/seconds)} */}
-        <div class="progressNode" style={{ width: `${progress/seconds*100}%` }} />
+        <div class="progressNode" style={{ width: `${progress / seconds * 100}%` }} />
       </div>
-      <DragDropContext onDragEnd={onDragEnd}>
-        <Droppable droppableId="drappable" direction="horizontal">
-          {(provided) => (
-            <div class="wrapper" ref={provided.innerRef} {...provided.droppableProps}>
-              {/* <div class="progressBar">
-                <div class="progressNode" style={{ width: progress  }} />
-              </div> */}
-              {frames.map((frame, index) =>
-                <Draggable draggableId={frame.id} index={index} key={frame.id}>
-                  {(provided, snapshot) => {
-                    var style = {
-                      width: width,
-                      borderWidth: frame.isKey ? 1 : 0,
-                      ...provided.draggableProps.style,
-                    }
-                    return (
-                      <div
-                        class="item"
-                        ref={provided.innerRef}
-                        disabled={frame.isKey ? false : true}
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                        style={style}
-                      >
-                        <div class="view" onDoubleClick={()=>skipToKeyFrame(index)} onClick={() => {frame.isKey ? viewKeyFrame(index) : toggleKeyFrame(index, frame.isKey )}}></div>
-                        {frame.isKey ? (<div class="remove" style={{backgroundColor: frame.isExtracted ? 'aquamarine' : 'indianred'}} onClick={() => toggleKeyFrame(index, frame.isKey)}>x</div>) : (<div class="none"></div>)}
-                      </div>
-                    );
-                  }}
-                </Draggable>
-              )}
-              {provided.placeholder}
-            </div>
-          )}
-        </Droppable>
-      </DragDropContext>
+
+      <div class="wrapper">
+        {frames.map((frame, index) =>
+          <div
+            class="item"
+            disabled={frame.isKey ? false : true}
+            style={{backgroundColor: frame.isKey ? 'lightgray' : 'white' }}
+          >
+            <div class="view" style={{width:width}} onDoubleClick={() => skipToKeyFrame(index)} onClick={() => { frame.isKey ? viewKeyFrame(index) : toggleKeyFrame(index, frame.isKey) }}></div>
+            {frame.isKey ? (<div class="remove" style={{ backgroundColor: frame.isExtracted ? 'aquamarine' : 'indianred' }} onClick={() => toggleKeyFrame(index, frame.isKey)}>x</div>) : (<div class="none"></div>)}
+          </div>
+        )}
+      </div>
+
       <div class="helperText">{statusText}   </div>
     </div>
   );
