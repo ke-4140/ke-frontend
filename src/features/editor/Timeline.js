@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import styles from './Timeline.css';
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-
+import { useSelector, useDispatch } from 'react-redux';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import { selectYoutubeURL, fetchKeyFrames, selectFrames} from '../systemSlice';
 
 const reorder = (list, startIndex, endIndex) => {
   const [removed] = list.splice(startIndex, 1);
@@ -11,12 +12,7 @@ const reorder = (list, startIndex, endIndex) => {
 };
 
 export function Timeline({ seconds, player, seekTo, playAt}) {
-  const [frames, setFrames] = useState(Array.from({ length: seconds }, (v, k) => k).map(k => ({
-    id: `item-${k}`,
-    value: "",
-    isExtracted: true,
-    isKey: false
-  })));
+  const frames = useSelector(selectFrames);
   const [width, changeWidth] = useState(10);
   const [statusText, setStatusText] = useState("");
   const [progress, setProgress] = useState(0);
@@ -43,7 +39,7 @@ export function Timeline({ seconds, player, seekTo, playAt}) {
       result.source.index,
       result.destination.index
     );
-    setFrames(reorderedFrames);
+    // setFrames(reorderedFrames);
   }
 
   function viewKeyFrame(index) {
@@ -62,7 +58,7 @@ export function Timeline({ seconds, player, seekTo, playAt}) {
 
     const newFrames = [...frames];
     newFrames[index].isKey = !newFrames[index].isKey;
-    setFrames(newFrames);
+    // setFrames(newFrames);
     var helperText = newFrames[index].isKey ? "added" : "removed";
     setStatusText("Last " + helperText + " keyframe at " + secondsToMinutes(index));
   }
@@ -91,7 +87,7 @@ export function Timeline({ seconds, player, seekTo, playAt}) {
       </div>
 
       <div class="progressBar">
-        {console.log(progress/seconds)}
+        {/* {console.log(progress/seconds)} */}
         <div class="progressNode" style={{ width: `${progress/seconds*100}%` }} />
       </div>
       <DragDropContext onDragEnd={onDragEnd}>

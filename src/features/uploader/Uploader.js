@@ -4,24 +4,20 @@ import { Card } from '../../components/Card'
 import { useHistory } from "react-router-dom";
 import { Button } from '../../components/Button'
 import '../../App.css';
-import { setYoutubeURL, fetchKeyFrames} from "../systemSlice";
+import { postYoutubeSrc, fetchKeyFrames} from "../systemSlice";
 
 export function Uploader() {
   // const count = useSelector(selectCount);
   const dispatch = useDispatch();
-  const [link, setLink] = useState('https://www.youtube.com/watch?v=6u7aQV_2-2U');
+  const [link, setLink] = useState('https://m.youtube.com/watch?v=0kL6nhutjQ8');
   const history = useHistory();
-
 
   function submit(){
     // sample 1: https://www.youtube.com/watch?v=6u7aQV_2-2U
     // sample 2: https://www.youtube.com/watch?v=QiTq5WrWoJw
 
     //@TODO: error checking if its a youtube link
-    dispatch(setYoutubeURL(link));
-    // dispatch(fetchKeyFrames(12));
-    console.log(link);
-    history.push("/editor");
+    dispatch(postYoutubeSrc(link, history));
   }
   return (
     <div>

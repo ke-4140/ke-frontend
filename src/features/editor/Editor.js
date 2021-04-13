@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
 import { Header } from '../../components/Header';
 import { Button } from '../../components/Button';
 import { Timeline } from './Timeline'
 import YouTube from 'react-youtube';
-import { selectYoutubeURL, fetchKeyFrames} from '../systemSlice';
+import { selectYoutubeURL, fetchKeyFrames, getJobStatus} from '../systemSlice';
 
 export function Editor() {
   const dispatch = useDispatch();
@@ -24,7 +24,7 @@ export function Editor() {
   };
 
   const onReady = (e) => {
-    console.log(e.target);
+    // console.log(e.target);
     setPlayerObj(e.target);
     setSeconds(e.target.getDuration());
     setIsLoading(false);
@@ -32,17 +32,17 @@ export function Editor() {
   }
 
   function onStateChange(e) {
-    console.log(e.target.getCurrentTime());
+    // console.log(e.target.getCurrentTime());
   }
 
   function seekTo(second) {
-    console.log("seek to: ", second);
+    // console.log("seek to: ", second);
     playerObj.seekTo(second);
     playerObj.pauseVideo();
   }
 
   function playAt(second) {
-    console.log("play at: ", second);
+    // console.log("play at: ", second);
     playerObj.seekTo(second);
     playerObj.playVideo();
   }
@@ -55,7 +55,16 @@ export function Editor() {
     //dispatch() 
   }
 
-
+  // calling dispatch(getJobStatus()) every 5 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      dispatch(getJobStatus());
+      console.log("fetch new frames every 5 seconds")
+    }
+      , 5000);
+    return () => clearInterval(interval);
+  }, []); //stop when job is finished 
+  
 
   return (
     <div>
