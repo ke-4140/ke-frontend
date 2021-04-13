@@ -96,7 +96,7 @@ export const getJobStatus = () => (dispatch, getState) => {
       if (res.data.data.outputs.length == 0 && res.data.data.job.status == "running") {
         // also add other important data about the video 
         dispatch(setTotalVideoTime(attributesJSON.length));
-        dispatch(initilizeFrames(attributesJSON.length));
+        dispatch(initializeFrames(attributesJSON.length));
       }
       else {
         dispatch(addKeyframes(res.data.data.outputs));
@@ -137,10 +137,13 @@ export const fetchKeyFrames = (start) => (dispatch, getState) => {
   dispatch(setFrames(newFrames));
 };
 
-export const initilizeFrames = (numOfFrames) => (dispatch, getState) => {
+export const initializeFrames = (numOfFrames) => (dispatch, getState) => {
 
-  console.log('SYSTEM/initilizeFrames')
+  console.log('SYSTEM/initializeFrames')
+  if(numOfFrames<0)
+    numOfFrames = getState().system.totalVideoTime;
   
+  console.log(numOfFrames);
   var seconds = numOfFrames;
   var testFrames = Array.from({ length: seconds }, (v, k) => k).map(k => ({
     id: `init-${k}`,

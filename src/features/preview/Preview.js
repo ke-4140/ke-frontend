@@ -11,8 +11,6 @@ export function Preview() {
   const dispatch = useDispatch();
   const history = useHistory();
   const contents = useSelector(selectContents);
-  const pdfTotalPages = useSelector(selectPdfTotalPages);
-  const [loading, setLoading] = useState(false);
   const [title, setTitle] = useState('New Note');
   const [enableTranscript, switchEnableTranscript] = useState(true);
   const [enableKFA, switchEnableKFA] = useState(false);
@@ -27,6 +25,7 @@ export function Preview() {
     document.getElementById('toPrint').style.overflow = 'unset';
     // document.getElementById('hide').style.visibility = 'hidden';
     document.getElementById('hide').style.display = 'none';
+    document.getElementById('hideHeader').style.display = 'none';
     document.getElementById('hideButtons').style.display = 'none';
 
 
@@ -37,6 +36,7 @@ export function Preview() {
 
     document.getElementById('hide').style.display = 'flex';
     document.getElementById('hideButtons').style.display = 'flex';
+    document.getElementById('hideHeaders').style.display = 'flex';
     document.getElementById('toPrint').style.overflow = 'scroll';
   }
 
@@ -46,11 +46,12 @@ export function Preview() {
 
   return (
     <div id='original'>
-
-      <Header />
+      <div id='hideHeader'>
+        <Header />
+      </div>
 
       <div id='hideButtons' style={{ display: 'flex', marginRight: 20, marginBottom: 10, justifyContent: 'flex-end' }}>
-        <Button label="Back"></Button>
+        <Button label="Back" onClick={() => {history.push("editor")}}></Button>
         <Button label="Finish" onClick={() => finishPreview()}></Button>
       </div>
       <div id='hide' style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginInline: 20 }}>
@@ -81,19 +82,19 @@ export function Preview() {
         </Card>
       </div>
       <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginInline: 20 }}>
-      <div id="toPrint" style={{ overflowY: 'scroll',  height: 580, display: 'block', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginInline: 20 }}>
-        {enableKFA ? (<PDFTemplate title={title} KFA={true} />) : (<> </>)}
+        <div id="toPrint" style={{ overflowY: 'scroll', height: 580, display: 'block', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginInline: 20 }}>
+          {enableKFA ? (<PDFTemplate title={title} KFA={true} />) : (<> </>)}
 
-        {contents ? (
-          contents.map((contents, index) =>
-            <>
-              <PDFTemplate key={index} title={title} contents={contents} enableKFA={enableKFA} enableTranscript={enableTranscript} />
-              <div class="pagebreak"> </div>
-            </>
-          )
-        ) : <div>loading...</div>}
+          {contents ? (
+            contents.map((contents, index) =>
+              <>
+                <PDFTemplate key={index} title={title} contents={contents} enableKFA={enableKFA} enableTranscript={enableTranscript} />
+                <div class="pagebreak"> </div>
+              </>
+            )
+          ) : <div>loading...</div>}
 
-      </div>
+        </div>
       </div>
     </div>
   );

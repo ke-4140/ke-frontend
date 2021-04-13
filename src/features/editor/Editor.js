@@ -5,7 +5,7 @@ import { Header } from '../../components/Header';
 import { Button } from '../../components/Button';
 import { Timeline } from './Timeline'
 import YouTube from 'react-youtube';
-import { selectExtractionProgress, selectJobIsCompleted, selectYoutubeURL, getJobStatus } from '../systemSlice';
+import { initializeFrames, selectExtractionProgress, selectJobIsCompleted, selectYoutubeURL, getJobStatus } from '../systemSlice';
 
 export function Editor() {
   const dispatch = useDispatch();
@@ -73,7 +73,7 @@ export function Editor() {
   }
 
   function resetKeyframes() {
-    //dispatch() 
+    dispatch(initializeFrames(-1)) ;
   }
 
 
