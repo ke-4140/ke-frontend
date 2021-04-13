@@ -28,10 +28,9 @@ export function Preview() {
     document.getElementById('hideHeader').style.display = 'none';
     document.getElementById('hideButtons').style.display = 'none';
 
-
     // var originalContents = document.getElementById('original').innerHTML;
-    // document.body.in
-    nerHTML = printContents;
+    // document.body.innerHTML = printContents;
+    
     document.title = title;
     window.print();
 
