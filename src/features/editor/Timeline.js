@@ -3,7 +3,7 @@ import styles from './Timeline.css';
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { useSelector, useDispatch } from 'react-redux';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { selectYoutubeURL, selectKeyFrame, selectFrames } from '../systemSlice';
+import { addLoadedFramesNum, setLoadedFramesNum, selectKeyFrame, selectFrames } from '../systemSlice';
 
 const reorder = (list, startIndex, endIndex) => {
   const [removed] = list.splice(startIndex, 1);
@@ -14,6 +14,7 @@ const reorder = (list, startIndex, endIndex) => {
 export function Timeline({ seconds, player, seekTo, playAt }) {
   const dispatch = useDispatch();
   const frames = useSelector(selectFrames);
+  const loadedFramesNum = useSelector(setLoadedFramesNum);
   const [width, changeWidth] = useState(10);
   const [statusText, setStatusText] = useState("");
   const [progress, setProgress] = useState(0);
@@ -26,21 +27,12 @@ export function Timeline({ seconds, player, seekTo, playAt }) {
     return () => clearInterval(interval);
   }, []);
 
-  function onDragEnd(result) {
-    if (!result.destination) {
-      return;
-    }
+  // useEffect(() => {
+  // }, []);
+  function loadsMore() {
+    console.log('loads more, current:', loadedFramesNum);
+    dispatch(addLoadedFramesNum());
 
-    if (result.destination.index === result.source.index) {
-      return;
-    }
-
-    const reorderedFrames = reorder(
-      frames,
-      result.source.index,
-      result.destination.index
-    );
-    // setFrames(reorderedFrames);
   }
 
   function viewKeyFrame(index) {
@@ -79,12 +71,12 @@ export function Timeline({ seconds, player, seekTo, playAt }) {
 
         <div class="controlButtons">
           <span> {secondsToMinutes(Math.floor(progress))} /{secondsToMinutes(seconds)} </span>
-          <button onClick={() => changeWidth(width + 10)}>
+          {/* <button onClick={() => changeWidth(width + 10)}>
             +
           </button>
           <button onClick={() => changeWidth(width - 10)}>
             -
-          </button>
+          </button> */}
         </div>
       </div>
 
@@ -93,18 +85,21 @@ export function Timeline({ seconds, player, seekTo, playAt }) {
         <div class="progressNode" style={{ width: `${progress / seconds * 100}%` }} />
       </div>
 
-      <div class="wrapper">
-        {frames.map((frame, index) =>
+      <InfiniteScroll
+        dataLength={loadedFramesNum} //This is important field to render the next data
+        next={loadsMore}
+        hasMore={true}
+        className="wrapper">
+        {frames.slice(0, loadedFramesNum).map((frame, index) =>
           <div
             class="item"
-            disabled={frame.isKey ? false : true}
-            style={{backgroundColor: frame.isKey ? 'lightgray' : 'white' }}
+            style={{ display: 'flex', backgroundColor: frame.isKey ? 'lightgray' : 'white' }}
           >
-            <div class="view" style={{width:width}} onDoubleClick={() => skipToKeyFrame(index)} onClick={() => { frame.isKey ? viewKeyFrame(index) : toggleKeyFrame(index, frame.isKey) }}></div>
-            {frame.isKey ? (<div class="remove" style={{ backgroundColor: frame.isExtracted ? 'aquamarine' : 'indianred' }} onClick={() => toggleKeyFrame(index, frame.isKey)}>x</div>) : (<div class="none"></div>)}
+            <div class="view" style={{ display: 'flex', width: width, flex: 3 }} onDoubleClick={() => skipToKeyFrame(index)} onClick={() => { frame.isKey ? viewKeyFrame(index) : toggleKeyFrame(index, frame.isKey) }}></div>
+            {frame.isKey ? (<div class="remove" style={{ display: 'flex', justifyContent: 'center', backgroundColor: frame.isExtracted ? 'aquamarine' : 'pink', flex: 1 }} onClick={() => toggleKeyFrame(index, frame.isKey)}>x</div>) : (<div style={{ display: 'flex', flex: 0 }} class="none"></div>)}
           </div>
         )}
-      </div>
+      </InfiniteScroll>
 
       <div class="helperText">{statusText}   </div>
     </div>

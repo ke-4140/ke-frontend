@@ -99,7 +99,6 @@ export function Editor() {
             <ul> @TODO: Match progress bar with Timeline </ul>
             <ul> @TODO: Persist redux (cache link) </ul>
           </ol>
-          <span> Extraction Status: {!jobIsCompleted ? "[" +  extractionProgress+ "% extracted]" :  "[" + extractionProgress+ "% Done]"}</span>
 
         </div>
         <YouTube videoId={youtubeURL.split('=')[1]} opts={opts} onReady={onReady} onStateChange={onStateChange} />
@@ -110,6 +109,7 @@ export function Editor() {
       ) : (
         <></>
       )}
+          <span> Keyframes Extraction Status: {!jobIsCompleted ? "[" +  extractionProgress+ "% extracted]" :  "[" + extractionProgress+ "% Done]"}</span>
 
     </div >
   );

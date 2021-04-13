@@ -9,7 +9,7 @@ import { postYoutubeSrc, fetchKeyFrames} from "../systemSlice";
 export function Uploader() {
   // const count = useSelector(selectCount);
   const dispatch = useDispatch();
-  const [link, setLink] = useState('https://m.youtube.com/watch?v=0kL6nhutjQ8');
+  const [link, setLink] = useState('https://www.youtube.com/watch?v=pZSegEXtgAE');
   const history = useHistory();
 
   function submit(){

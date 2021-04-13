@@ -9,10 +9,12 @@ export const systemSlice = createSlice({
     youtubeURL: "",
     frames: [],
     keyframes: [],
+    totalVideoTime: 0,
     frameScriptTuple: null,
     owner: null,
     jobIsCompleted: false,
     extractionProgress: 0,
+    loadedFramesNum: 600,
   },
   reducers: {
     setYoutubeURL: (state, action) => {
@@ -45,11 +47,17 @@ export const systemSlice = createSlice({
     },
     setExtractionProgress: (state, action) => {
       state.extractionProgress = action.payload
+    },
+    addLoadedFramesNum: (state, action) =>{
+      state.loadedFramesNum = (state.loadedFramesNum + 600) > state.totalVideoTime ? state.totalVideoTime : (state.loadedFramesNum + 600)
+    },
+    setTotalVideoTime: (state, action) =>{
+      state.totalVideoTime = action.payload
     }
   },
 });
 
-export const { setExtractionProgress, completesJob, selectKeyFrame, addKeyframes, setOwner, setYoutubeURL, setFrames, setFrameScriptTuple, setPdfTotalPages, setContents } = systemSlice.actions;
+export const { setTotalVideoTime, addLoadedFramesNum, setExtractionProgress, completesJob, selectKeyFrame, addKeyframes, setOwner, setYoutubeURL, setFrames, setFrameScriptTuple, setPdfTotalPages, setContents } = systemSlice.actions;
 
 
 export const postYoutubeSrc = (link, history) => dispatch => {
@@ -87,6 +95,7 @@ export const getJobStatus = () => (dispatch, getState) => {
       var attributesJSON = JSON.parse(res.data.data.job.attributes);
       if (res.data.data.outputs.length == 0 && res.data.data.job.status == "running") {
         // also add other important data about the video 
+        dispatch(setTotalVideoTime(attributesJSON.length));
         dispatch(initilizeFrames(attributesJSON.length));
       }
       else {
@@ -101,8 +110,8 @@ export const getJobStatus = () => (dispatch, getState) => {
       }
     })
     .catch(err => {
-      console.log(err.status);
-      console.log(err.response);
+      // console.log(err.status);
+      // console.log(err.response);
     });
 };
 
@@ -168,10 +177,10 @@ export const processFrameScriptTuple = (n) => (dispatch, getState) => {
   dispatch(setFrameScriptTuple(TestFrameScriptTuple));
 };
 
-
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of
 // in the slice file. For example: `useSelector((state) => state.counter.value)`
+export const setLoadedFramesNum = state => state.system.loadedFramesNum;
 export const selectJobIsCompleted = state => state.system.jobIsCompleted;
 export const selectExtractionProgress = state => state.system.extractionProgress;
 export const selectYoutubeURL = state => state.system.youtubeURL;
