@@ -80,8 +80,8 @@ export function Preview() {
           <Button label="Print as PDF" onClick={() => triggerPrint()}></Button>
         </Card>
       </div>
-
-      <div id="toPrint" style={{ overflowY: 'scroll', height: 600, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginInline: 20 }}>
+      <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginInline: 20 }}>
+      <div id="toPrint" style={{ overflowY: 'scroll',  height: 580, display: 'block', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginInline: 20 }}>
         {enableKFA ? (<PDFTemplate title={title} KFA={true} />) : (<> </>)}
 
         {contents ? (
@@ -93,6 +93,7 @@ export function Preview() {
           )
         ) : <div>loading...</div>}
 
+      </div>
       </div>
     </div>
   );
