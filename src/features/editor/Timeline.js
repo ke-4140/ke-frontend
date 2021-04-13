@@ -61,7 +61,7 @@ export function Timeline({ seconds, player, seekTo, playAt}) {
     // newFrames[index].isKey = !newFrames[index].isKey;
     status = !status;
     dispatch(selectKeyFrame({index: index, status: status}));
-    var helperText = status ? "added" : "removed";
+    var helperText = status ? "ADDED" : "REMOVED";
     setStatusText("Last " + helperText + " keyframe at " + secondsToMinutes(index));
   }
 

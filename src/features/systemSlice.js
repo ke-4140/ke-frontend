@@ -11,7 +11,8 @@ export const systemSlice = createSlice({
     keyframes: [],
     frameScriptDuple: null,
     owner: null,
-    jobIsCompleted: false
+    jobIsCompleted: false,
+    extractionProgress: 0,
   },
   reducers: {
     setYoutubeURL: (state, action) => {
@@ -41,11 +42,14 @@ export const systemSlice = createSlice({
     },
     completesJob: (state, action) => {
       state.jobIsCompleted = true
+    },
+    setExtractionProgress: (state, action) => {
+      state.extractionProgress = action.payload
     }
   },
 });
 
-export const { completesJob, selectKeyFrame, addKeyframes, setOwner, setYoutubeURL, setFrames, setFrameScriptDuple, setPdfTotalPages, setContents } = systemSlice.actions;
+export const { setExtractionProgress, completesJob, selectKeyFrame, addKeyframes, setOwner, setYoutubeURL, setFrames, setFrameScriptDuple, setPdfTotalPages, setContents } = systemSlice.actions;
 
 
 export const postYoutubeSrc = (link, history) => dispatch => {
@@ -86,14 +90,17 @@ export const getJobStatus = () => (dispatch, getState) => {
         // also add other important data about the video 
         dispatch(initilizeFrames(attributesJSON.length));
       }
-      else if (res.data.data.job.status == "finished") {
-        console.log('Job completed');
-        dispatch(completesJob());
-      }
       else {
-        console.log(res.data.data.outputs[0].id);
+        console.log(res.data.data.outputs[res.data.data.outputs.length - 1]);
+        console.log(attributesJSON.length);
         dispatch(addKeyframes(res.data.data.outputs));
         dispatch(fetchKeyFrames(res.data.data.outputs[0].id))
+        dispatch(setExtractionProgress(Math.round(res.data.data.outputs[res.data.data.outputs.length - 1].vid_time * 100 / attributesJSON.length)));
+      }
+      if (res.data.data.job.status == "finished") {
+        console.log('Job completed');
+        dispatch(completesJob());
+        dispatch(setExtractionProgress(100));
       }
     })
     .catch(err => {
@@ -118,7 +125,7 @@ export const fetchKeyFrames = (start) => (dispatch, getState) => {
   // console.log("frames a:", newFrames);
 
   keyframes.map((keyframe, index) => {
-    newFrames[keyframe.vid_time] = {...newFrames[keyframe.vid_time],  isExtracted: true, isKey: true  };
+    newFrames[keyframe.vid_time] = { ...newFrames[keyframe.vid_time], isExtracted: true, isKey: true };
   });
 
   dispatch(setFrames(newFrames));
@@ -166,6 +173,7 @@ export const processFrameScriptDuple = (n) => dispatch => {
 // the state. Selectors can also be defined inline where they're used instead of
 // in the slice file. For example: `useSelector((state) => state.counter.value)`
 export const selectJobIsCompleted = state => state.system.jobIsCompleted;
+export const selectExtractionProgress = state => state.system.extractionProgress;
 export const selectYoutubeURL = state => state.system.youtubeURL;
 export const selectFrames = state => state.system.frames;
 export const selectFrameScriptDuple = state => state.system.frameScriptDuple;

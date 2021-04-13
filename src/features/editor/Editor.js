@@ -5,11 +5,12 @@ import { Header } from '../../components/Header';
 import { Button } from '../../components/Button';
 import { Timeline } from './Timeline'
 import YouTube from 'react-youtube';
-import { selectJobIsCompleted, selectYoutubeURL, getJobStatus } from '../systemSlice';
+import { selectExtractionProgress, selectJobIsCompleted, selectYoutubeURL, getJobStatus } from '../systemSlice';
 
 export function Editor() {
   const dispatch = useDispatch();
   const history = useHistory();
+  const extractionProgress = useSelector(selectExtractionProgress);
   const jobIsCompleted = useSelector(selectJobIsCompleted);
   const youtubeURL = useSelector(selectYoutubeURL);
   const [playerObj, setPlayerObj] = useState(null);
@@ -30,10 +31,10 @@ export function Editor() {
     const intervalId = setInterval(() => {
       if (!jobIsCompleted) {
         dispatch(getJobStatus());
-        console.log("fetch new frames every 5 seconds")
+        console.log("fetch new frames every 2 seconds")
       }
     }
-      , 5000);
+      , 2000);
 
       setIntervalID(intervalId);
   }, []); //stop when job is finished 
@@ -97,8 +98,9 @@ export function Editor() {
             <ul> @TODO: Add current playing frame </ul>
             <ul> @TODO: Match progress bar with Timeline </ul>
             <ul> @TODO: Persist redux (cache link) </ul>
-            <ul> Job completed?  </ul>
           </ol>
+          <span> Extraction Status: {!jobIsCompleted ? "[" +  extractionProgress+ "% extracted]" :  "[" + extractionProgress+ "% Done]"}</span>
+
         </div>
         <YouTube videoId={youtubeURL.split('=')[1]} opts={opts} onReady={onReady} onStateChange={onStateChange} />
       </div>
