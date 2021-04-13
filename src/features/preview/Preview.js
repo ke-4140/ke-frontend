@@ -81,7 +81,7 @@ export function Preview() {
         </Card>
       </div>
 
-      <div id="toPrint" style={{ height: 600, overflowY: 'scroll', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginInline: 20 }}>
+      <div id="toPrint" style={{ overflowY: 'scroll', height: 600, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginInline: 20 }}>
         {enableKFA ? (<PDFTemplate title={title} KFA={true} />) : (<> </>)}
 
         {contents ? (

@@ -33,7 +33,7 @@ export function PDFTemplate({
 
       {KFA ? (
         <div style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'row', marginTop: 16, marginBottom: 16, border: '1px solid black', weight: 546, height: 640 }} >
-          KFAkjhkjhkjhkjhjkhkjh
+          KFA Content
         </div>) : (
         <div>
           {contents.map((content, index) => (
