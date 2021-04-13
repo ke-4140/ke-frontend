@@ -11,7 +11,7 @@ const reorder = (list, startIndex, endIndex) => {
   return list;
 };
 
-export function Timeline({ seconds, player, seekTo, playAt }) {
+export function Timeline({ seconds, player, seekTo, playAt, extractionProgress}) {
   const dispatch = useDispatch();
   const frames = useSelector(selectFrames);
   const loadedFramesNum = useSelector(setLoadedFramesNum);
@@ -66,7 +66,7 @@ export function Timeline({ seconds, player, seekTo, playAt }) {
     <div>
       <div class="controlPane">
         <span>Timeline </span>
-
+        <span>[Keyframes Extraction Status: {extractionProgress}% extracted]</span>
         <div class="controlButtons">
           <span> {secondsToMinutes(Math.floor(progress))} /{secondsToMinutes(seconds)} </span>
           {/* <button onClick={() => changeWidth(width + 10)}>
@@ -80,7 +80,8 @@ export function Timeline({ seconds, player, seekTo, playAt }) {
 
       <div class="progressBar">
         {/* {console.log(progress/seconds)} */}
-        <div class="progressNode" style={{ width: `${progress / seconds * 100}%` }} />
+        <div class="ExtractProgressNode" style={{ width: `${extractionProgress}%` }} />
+        <div class="TimeProgressNode" style={{ width: `${progress / seconds * 100}%` }} />
       </div>
 
       <InfiniteScroll

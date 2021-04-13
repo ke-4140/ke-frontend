@@ -49,6 +49,7 @@ export function Editor() {
     setPlayerObj(e.target);
     setSeconds(e.target.getDuration());
     setIsLoading(false);
+    dispatch(initializeFrames(e.target.getDuration()));
     e.target.playVideo();
   }
 
@@ -73,7 +74,7 @@ export function Editor() {
   }
 
   function resetKeyframes() {
-    dispatch(initializeFrames(-1)) ;
+    dispatch(initializeFrames(seconds)) ;
   }
 
 
@@ -94,10 +95,6 @@ export function Editor() {
             <li> Click on Keyframe to view the Keyframe on Video Player </li>
             <li> Double click on frame to play from it</li>
             <li> Export when you feel good about all the Keyframes </li>
-            <ul> @DONE: Differentiate server-created keyframes and user-created keyframes </ul>
-            <ul> @TODO: Add current playing frame </ul>
-            <ul> @TODO: Match progress bar with Timeline </ul>
-            <ul> @TODO: Persist redux (cache link) </ul>
           </ol>
 
         </div>
@@ -105,11 +102,10 @@ export function Editor() {
       </div>
 
       {!isLoading ? (
-        <Timeline isLoading={isLoading} seconds={seconds} player={playerObj} seekTo={seekTo} playAt={playAt} />
+        <Timeline extractionProgress={extractionProgress} isLoading={isLoading} seconds={seconds} player={playerObj} seekTo={seekTo} playAt={playAt} />
       ) : (
         <></>
       )}
-          <span> Keyframes Extraction Status: {!jobIsCompleted ? "[" +  extractionProgress+ "% extracted]" :  "[" + extractionProgress+ "% Done]"}</span>
 
     </div >
   );

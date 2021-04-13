@@ -5,6 +5,7 @@ export const systemSlice = createSlice({
   name: 'system',
   initialState: {
     logo: "KE",
+    extractionDetails: null,
     pdfTotalPages: null,
     youtubeURL: "",
     frames: [],
@@ -38,9 +39,8 @@ export const systemSlice = createSlice({
     addKeyframes: (state, action) => {
       state.keyframes = state.keyframes.concat(action.payload);
     },
-    selectKeyFrame: (state, action) => {
-      state.frames = state.frames.map(
-        (frame, i) => i === action.payload.index ? { ...frame, isKey: action.payload.status } : frame);
+    appendKeyFrame: (state, action) => {
+      state.keyframes = [{ vid_time: action.payload.index, img_addr: action.payload.imgAddr, userCreated: true }, ...state.keyframes];
     },
     completesJob: (state, action) => {
       state.jobIsCompleted = true
@@ -48,16 +48,26 @@ export const systemSlice = createSlice({
     setExtractionProgress: (state, action) => {
       state.extractionProgress = action.payload
     },
-    addLoadedFramesNum: (state, action) =>{
+    addLoadedFramesNum: (state, action) => {
       state.loadedFramesNum = (state.loadedFramesNum + 600) > state.totalVideoTime ? state.totalVideoTime : (state.loadedFramesNum + 600)
     },
-    setTotalVideoTime: (state, action) =>{
+    setTotalVideoTime: (state, action) => {
       state.totalVideoTime = action.payload
+    },
+    setExtractionDetails: (state, action) => {
+      state.extractionDetails = action.payload
+    },
+    setKeyFrames: (state, action) => {
+      state.keyframes = action.payload
+    },
+    toggleKeyframeFromFrame: (state, action) => {
+      state.frames = state.frames.map(
+        (frame, i) => i === action.payload.index ? { ...frame, isKey: action.payload.status } : frame);
     }
   },
 });
 
-export const { setTotalVideoTime, addLoadedFramesNum, setExtractionProgress, completesJob, selectKeyFrame, addKeyframes, setOwner, setYoutubeURL, setFrames, setFrameScriptTuple, setPdfTotalPages, setContents } = systemSlice.actions;
+export const { toggleKeyframeFromFrame, setKeyFrames, setExtractionDetails, setTotalVideoTime, addLoadedFramesNum, setExtractionProgress, completesJob, appendKeyFrame, addKeyframes, setOwner, setYoutubeURL, setFrames, setFrameScriptTuple, setPdfTotalPages, setContents } = systemSlice.actions;
 
 
 export const postYoutubeSrc = (link, history) => dispatch => {
@@ -93,21 +103,24 @@ export const getJobStatus = () => (dispatch, getState) => {
       // console.log(res.data.data);
       // console.log(res.data.data.outputs.length);
       var attributesJSON = JSON.parse(res.data.data.job.attributes);
-      if (res.data.data.outputs.length == 0 && res.data.data.job.status == "running") {
-        // also add other important data about the video 
-        dispatch(setTotalVideoTime(attributesJSON.length));
-        dispatch(initializeFrames(attributesJSON.length));
-      }
-      else {
-        dispatch(addKeyframes(res.data.data.outputs));
-        dispatch(fetchKeyFrames(res.data.data.outputs[0].id))
-        dispatch(setExtractionProgress(Math.round(res.data.data.outputs[res.data.data.outputs.length - 1].vid_time * 100 / attributesJSON.length)));
-      }
+      // if (res.data.data.outputs.length == 0 && res.data.data.job.status == "running") {
+      //   // also add other important data about the video 
+      //   dispatch(setExtractionDetails(attributesJSON));
+      //   dispatch(setTotalVideoTime(attributesJSON.length));
+      //   dispatch(initializeFrames(attributesJSON.length));
+      // }
+      dispatch(addKeyframes(res.data.data.outputs));
+      dispatch(fetchKeyFrames(res.data.data.outputs[0].id))
+      dispatch(setExtractionProgress(Math.round(res.data.data.outputs[res.data.data.outputs.length - 1].vid_time * 100 / attributesJSON.length)));
+
       if (res.data.data.job.status == "finished") {
         console.log('Job completed');
         dispatch(completesJob());
         dispatch(setExtractionProgress(100));
       }
+
+
+
     })
     .catch(err => {
       // console.log(err.status);
@@ -131,7 +144,7 @@ export const fetchKeyFrames = (start) => (dispatch, getState) => {
   // console.log("frames a:", newFrames);
 
   keyframes.map((keyframe, index) => {
-    newFrames[keyframe.vid_time] = { ...newFrames[keyframe.vid_time], isExtracted: true, isKey: true };
+    newFrames[keyframe.vid_time] = { ...newFrames[keyframe.vid_time], isExtracted: keyframe.userCreated ? false : true, isKey: true };
   });
 
   dispatch(setFrames(newFrames));
@@ -139,10 +152,8 @@ export const fetchKeyFrames = (start) => (dispatch, getState) => {
 
 export const initializeFrames = (numOfFrames) => (dispatch, getState) => {
 
-  console.log('SYSTEM/initializeFrames')
-  if(numOfFrames<0)
-    numOfFrames = getState().system.totalVideoTime;
-  
+  dispatch(setTotalVideoTime(numOfFrames));
+
   console.log(numOfFrames);
   var seconds = numOfFrames;
   var testFrames = Array.from({ length: seconds }, (v, k) => k).map(k => ({
@@ -156,11 +167,15 @@ export const initializeFrames = (numOfFrames) => (dispatch, getState) => {
 
 };
 
+
+
 export const processFrameScriptTuple = (n) => (dispatch, getState) => {
 
   console.log('SYSTEM/processFrameScriptTuple')
   var keyframes = [...getState().system.keyframes];
+  keyframes.sort(compare);
   //fetch from server
+
   var TestFrameScriptTuple = Array.from({ length: keyframes.length }, (v, k) => k).map(k => ({
     id: `fsd-${k}`,
     frame: keyframes[k].img_addr,
@@ -179,6 +194,42 @@ export const processFrameScriptTuple = (n) => (dispatch, getState) => {
   dispatch(setPdfTotalPages(TestFrameScriptTuple.length / n));
   dispatch(setFrameScriptTuple(TestFrameScriptTuple));
 };
+
+export const fetchNewKeyFrame = (index, status) => (dispatch, getState) => {
+
+  console.log('SYSTEM/fetchNewKeyFrame');
+  var youtubeURL = getState().system.youtubeURL;
+  dispatch(toggleKeyframeFromFrame({ index: index, status: status }));
+  var frameNum = parseInt(index) * 30;
+  if (status)
+    return axios.get(`http://ke.ddns.net/api/frame`, {
+      params: {
+        src: youtubeURL,
+        frame_no: frameNum
+      }
+    })
+      .then(res => {
+        dispatch(appendKeyFrame({ index: index, status: status, imgAddr: res.data }));
+      })
+      .catch(err => {
+        console.log(err.status);
+      });
+  else {
+    var keyframes = [...getState().system.keyframes].filter(keyframe => keyframe.vid_time != index);
+    // keyframes.filter(keyframe => keyframe.vid_time != index);
+    dispatch(setKeyFrames(keyframes));
+  }
+};
+
+function compare(a, b) {
+  if (a.vid_time < b.vid_time) {
+    return -1;
+  }
+  if (a.vid_time > b.vid_time) {
+    return 1;
+  }
+  return 0;
+}
 
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of
