@@ -3,7 +3,7 @@ import styles from './Timeline.css';
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { useSelector, useDispatch } from 'react-redux';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { addLoadedFramesNum, setLoadedFramesNum, selectKeyFrame, selectFrames } from '../systemSlice';
+import { addLoadedFramesNum, setLoadedFramesNum, fetchNewKeyFrame, selectFrames } from '../systemSlice';
 
 const reorder = (list, startIndex, endIndex) => {
   const [removed] = list.splice(startIndex, 1);
@@ -27,8 +27,6 @@ export function Timeline({ seconds, player, seekTo, playAt }) {
     return () => clearInterval(interval);
   }, []);
 
-  // useEffect(() => {
-  // }, []);
   function loadsMore() {
     console.log('loads more, current:', loadedFramesNum);
     dispatch(addLoadedFramesNum());
@@ -52,7 +50,7 @@ export function Timeline({ seconds, player, seekTo, playAt }) {
     // const newFrames = [...frames];
     // newFrames[index].isKey = !newFrames[index].isKey;
     status = !status;
-    dispatch(selectKeyFrame({ index: index, status: status }));
+    dispatch(fetchNewKeyFrame(parseInt(index), status));
     var helperText = status ? "ADDED" : "REMOVED";
     setStatusText("Last " + helperText + " keyframe at " + secondsToMinutes(index));
   }
