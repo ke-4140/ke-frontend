@@ -30,13 +30,14 @@ export function Preview() {
 
 
     // var originalContents = document.getElementById('original').innerHTML;
-    // document.body.innerHTML = printContents;
+    // document.body.in
+    nerHTML = printContents;
     document.title = title;
     window.print();
 
     document.getElementById('hide').style.display = 'flex';
     document.getElementById('hideButtons').style.display = 'flex';
-    document.getElementById('hideHeaders').style.display = 'flex';
+    document.getElementById('hideHeader').style.display = 'flex';
     document.getElementById('toPrint').style.overflow = 'scroll';
   }
 
