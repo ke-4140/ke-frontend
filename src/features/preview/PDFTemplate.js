@@ -24,7 +24,7 @@ export function PDFTemplate({
     return utc;
   }
   return (
-    <div style={{ width: 595 - 44, height: 595 * 1.618 - 44, border: '1px solid black', padding: 24, margin: 12 }}>
+    <div style={{ width: 595 - 44, height: 595 * 1.618 - 44, padding: 24, margin: 12 }}>
       <div style={{ display: 'flex', height: 20, justifyContent: 'flex-end' }}>
         <div>{logo} </div>
       </div>
@@ -45,8 +45,8 @@ export function PDFTemplate({
                 <img src={content.frame} height={146} width={261} />
               </div>
               {enableTranscript ? (
-                <textarea rows="10" style={{ resize: 'none', width: 261, height: 144 }}>
-                  {content.transcript}
+                <textarea rows="10" defaultValue={content.transcript} style={{ resize: 'none', width: 261, height: 144 }}>
+                
                 </textarea>
               ) : (
                 <textarea rows="10" style={{ resize: 'none', width: 261, height: 144 }}>

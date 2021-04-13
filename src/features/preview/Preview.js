@@ -5,28 +5,34 @@ import { Header } from '../../components/Header';
 import { Button } from '../../components/Button';
 import { Card } from '../../components/Card';
 import { PDFTemplate } from './PDFTemplate'
-import { selectContents, selectPdfTotalPages, processFrameScriptDuple } from '../systemSlice';
+import { selectContents, selectPdfTotalPages, processFrameScriptTuple } from '../systemSlice';
 
 export function Preview() {
   const dispatch = useDispatch();
   const history = useHistory();
   const contents = useSelector(selectContents);
   const pdfTotalPages = useSelector(selectPdfTotalPages);
+  const [loading, setLoading] = useState(false);
   const [title, setTitle] = useState('New Note');
   const [enableTranscript, switchEnableTranscript] = useState(true);
   const [enableKFA, switchEnableKFA] = useState(false);
 
   useEffect(() => {
-    dispatch(processFrameScriptDuple(4)); //reduce frame scripts duples to group of 4. 
+    dispatch(processFrameScriptTuple(4)); //reduce frame scripts duples to group of 4. 
   }, []);
 
   function triggerPrint() {
-    var printContents = document.getElementById('toPrint').innerHTML;
-    var originalContents = document.getElementById('original').innerHTML;
-    document.body.innerHTML = printContents;
+    document.getElementById('toPrint').style.overflow = 'unset';
+    document.getElementById('hide').style.minHeight = 7000000;
+    // document.getElementById('hide').style.visibility = 'hidden';
+    document.getElementById('hide').style.display = 'none';
+
+    // var originalContents = document.getElementById('original').innerHTML;
+    // document.body.innerHTML = printContents;
     document.title = title;
     window.print();
-    document.body.innerHTML = originalContents;
+    document.getElementById('hide').style.display = 'flex';
+    document.getElementById('toPrint').style.overflow = 'scroll';
   }
 
   function finishPreview(){
@@ -42,8 +48,7 @@ export function Preview() {
         <Button label="Back"></Button>
         <Button label="Finish" onClick={() => finishPreview()}></Button>
       </div>
-      <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginInline: 20 }}>
-      <div> Configs</div>
+      <div id='hide' style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginInline: 20 }}>
         <Card height={'20%'} width={'80%'} flexDirection={'column'}>
           <div>
             <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
@@ -69,21 +74,18 @@ export function Preview() {
           </div>
           <Button label="Print as PDF" onClick={() => triggerPrint()}></Button>
         </Card>
+        </div>
 
-        <div>PDF Preview</div>
-        <div id="toPrint" style={{ alignSelf: 'center', height: 600, overflowY: 'scroll' }}>
-
+        <div id="toPrint" style={{ alignSelf: 'center', height: 600, overflowY: 'scroll', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginInline: 20 }}>
           {enableKFA ? (<PDFTemplate title={title} pageNo={0} KFA={true} />) : (<> </>)}
 
           {contents ? (
             contents.map((contents, index) =>
-              <PDFTemplate title={title} contents={contents} pageNo={index + 1} totalPagesNum={pdfTotalPages} enableKFA={enableKFA} enableTranscript={enableTranscript} />
+              <PDFTemplate key={index} title={title} contents={contents} pageNo={index + 1} totalPagesNum={pdfTotalPages} enableKFA={enableKFA} enableTranscript={enableTranscript} />
             )
           ) : <div>loading...</div>}
 
-
         </div>
       </div>
-    </div >
   );
 }

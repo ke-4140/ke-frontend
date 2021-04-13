@@ -9,7 +9,7 @@ export const systemSlice = createSlice({
     youtubeURL: "",
     frames: [],
     keyframes: [],
-    frameScriptDuple: null,
+    frameScriptTuple: null,
     owner: null,
     jobIsCompleted: false,
     extractionProgress: 0,
@@ -24,8 +24,8 @@ export const systemSlice = createSlice({
     setFrames: (state, action) => {
       state.frames = action.payload;
     },
-    setFrameScriptDuple: (state, action) => {
-      state.frameScriptDuple = action.payload;
+    setFrameScriptTuple: (state, action) => {
+      state.frameScriptTuple = action.payload;
     },
     setPdfTotalPages: (state, action) => {
       state.pdfTotalPages = action.payload;
@@ -49,7 +49,7 @@ export const systemSlice = createSlice({
   },
 });
 
-export const { setExtractionProgress, completesJob, selectKeyFrame, addKeyframes, setOwner, setYoutubeURL, setFrames, setFrameScriptDuple, setPdfTotalPages, setContents } = systemSlice.actions;
+export const { setExtractionProgress, completesJob, selectKeyFrame, addKeyframes, setOwner, setYoutubeURL, setFrames, setFrameScriptTuple, setPdfTotalPages, setContents } = systemSlice.actions;
 
 
 export const postYoutubeSrc = (link, history) => dispatch => {
@@ -86,13 +86,10 @@ export const getJobStatus = () => (dispatch, getState) => {
       // console.log(res.data.data.outputs.length);
       var attributesJSON = JSON.parse(res.data.data.job.attributes);
       if (res.data.data.outputs.length == 0 && res.data.data.job.status == "running") {
-        console.log('length:', attributesJSON.length);
         // also add other important data about the video 
         dispatch(initilizeFrames(attributesJSON.length));
       }
       else {
-        console.log(res.data.data.outputs[res.data.data.outputs.length - 1]);
-        console.log(attributesJSON.length);
         dispatch(addKeyframes(res.data.data.outputs));
         dispatch(fetchKeyFrames(res.data.data.outputs[0].id))
         dispatch(setExtractionProgress(Math.round(res.data.data.outputs[res.data.data.outputs.length - 1].vid_time * 100 / attributesJSON.length)));
@@ -134,6 +131,7 @@ export const fetchKeyFrames = (start) => (dispatch, getState) => {
 export const initilizeFrames = (numOfFrames) => (dispatch, getState) => {
 
   console.log('SYSTEM/initilizeFrames')
+  
   var seconds = numOfFrames;
   var testFrames = Array.from({ length: seconds }, (v, k) => k).map(k => ({
     id: `init-${k}`,
@@ -146,26 +144,28 @@ export const initilizeFrames = (numOfFrames) => (dispatch, getState) => {
 
 };
 
-export const processFrameScriptDuple = (n) => dispatch => {
+export const processFrameScriptTuple = (n) => (dispatch, getState) => {
 
+  console.log('SYSTEM/processFrameScriptTuple')
+  var keyframes = [...getState().system.keyframes];
   //fetch from server
-  var TestFrameScriptDuple = Array.from({ length: 16 }, (v, k) => k).map(k => ({
+  var TestFrameScriptTuple = Array.from({ length: keyframes.length }, (v, k) => k).map(k => ({
     id: `fsd-${k}`,
-    frame: (k % 2 == 0) ? "http://ke.ddns.net/api/image?src=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3DVlSK3W4fWK8&uuid=d943362f-41e2-4332-84aa-591f9010a72f&name=99_270_20210406T085336.jpg" : "https://images.unsplash.com/photo-1478915765319-04e68e890018?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1636&q=80",
+    frame: keyframes[k].img_addr,
     transcript: `test script ${k}`
   }));
 
-  var contents = TestFrameScriptDuple.reduce(function (contents, key, index) {
+  var contents = TestFrameScriptTuple.reduce(function (contents, key, index) {
     return (index % n == 0 ? contents.push([key])
       : contents[contents.length - 1].push(key)) && contents;
   }, []);
 
-  console.log(TestFrameScriptDuple);
+  console.log(TestFrameScriptTuple);
   console.log(contents);
 
   dispatch(setContents(contents));
-  dispatch(setPdfTotalPages(TestFrameScriptDuple.length / n));
-  dispatch(setFrameScriptDuple(TestFrameScriptDuple));
+  dispatch(setPdfTotalPages(TestFrameScriptTuple.length / n));
+  dispatch(setFrameScriptTuple(TestFrameScriptTuple));
 };
 
 
@@ -176,7 +176,7 @@ export const selectJobIsCompleted = state => state.system.jobIsCompleted;
 export const selectExtractionProgress = state => state.system.extractionProgress;
 export const selectYoutubeURL = state => state.system.youtubeURL;
 export const selectFrames = state => state.system.frames;
-export const selectFrameScriptDuple = state => state.system.frameScriptDuple;
+export const selectFrameScriptTuple = state => state.system.frameScriptTuple;
 export const selectPdfTotalPages = state => state.system.pdfTotalPages;
 export const selectContents = state => state.system.contents;
 
