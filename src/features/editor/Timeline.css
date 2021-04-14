@@ -81,9 +81,3 @@
   margin-left: 5px;
   margin-right: 5px;
 }
-
-.helperText {
-  margin: 20px;
-  display:flex;
-  justify-content: flex-end;
-}

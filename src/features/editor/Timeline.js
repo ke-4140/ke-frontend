@@ -11,11 +11,11 @@ const reorder = (list, startIndex, endIndex) => {
   return list;
 };
 
-export function Timeline({ seconds, player, seekTo, playAt, extractionProgress, hoverPreview}) {
+export function Timeline({ seconds, player, seekTo, playAt, extractionProgress }) {
   const dispatch = useDispatch();
   const frames = useSelector(selectFrames);
   const loadedFramesNum = useSelector(setLoadedFramesNum);
-  const [width, changeWidth] = useState(10);
+  const [previewImage, setPreviewImage] = useState('https://149359300.v2.pressablecdn.com/wp-content/uploads/2019/11/placeholder.png');
   const [statusText, setStatusText] = useState("");
   const [progress, setProgress] = useState(0);
 
@@ -40,8 +40,6 @@ export function Timeline({ seconds, player, seekTo, playAt, extractionProgress, 
 
 
   function skipToKeyFrame(index, img) {
-    console.log(img);
-    hoverPreview(img);
     setProgress(index);
     playAt(index);
   }
@@ -49,8 +47,6 @@ export function Timeline({ seconds, player, seekTo, playAt, extractionProgress, 
 
   function toggleKeyFrame(index, status = false) {
     console.log('toggle:' + index);
-    // const newFrames = [...frames];
-    // newFrames[index].isKey = !newFrames[index].isKey;
     status = !status;
     dispatch(fetchNewKeyFrame(parseInt(index), status));
     var helperText = status ? "ADDED" : "REMOVED";
@@ -64,19 +60,40 @@ export function Timeline({ seconds, player, seekTo, playAt, extractionProgress, 
     else return `${m}:${s}`;
   }
 
+  function updatePosition(index) {
+    setStatusText("Mouse is on " + secondsToMinutes(index));
+  }
+
+  function moveImg(event, isKey, imgAddr) {
+
+    if (isKey && imgAddr) {
+      setPreviewImage(imgAddr);
+      var x = event.clientX;
+      var y = event.clientY - 146;
+      
+      var preview = document.getElementById("preview");
+
+      preview.style.visibility = 'visible';
+      preview.style.left = x + 'px';
+      preview.style.top = y + 'px';
+    }
+  }
+
+  function hidePreview() {
+      var preview = document.getElementById("preview");
+      preview.style.visibility = 'hidden';
+  }
+
   return (
     <div>
+      <div onMouseMove="moveImg(event)">
+        <img height={146} width={261} style={{ position: 'absolute', visibility: 'hidden', borderStyle: 'solid', borderWidth: '1px' , borderColor: 'grey' }} src={previewImage} id='preview' />
+      </div>
       <div class="controlPane">
-        <span>Timeline </span>
         <span>[Keyframes Extraction Status: {extractionProgress}% extracted]</span>
+        <span class="helperText">{statusText}</span>
         <div class="controlButtons">
           <span> {secondsToMinutes(Math.floor(progress))} /{secondsToMinutes(seconds)} </span>
-          {/* <button onClick={() => changeWidth(width + 10)}>
-            +
-          </button>
-          <button onClick={() => changeWidth(width - 10)}>
-            -
-          </button> */}
         </div>
       </div>
 
@@ -93,17 +110,16 @@ export function Timeline({ seconds, player, seekTo, playAt, extractionProgress, 
         className="wrapper">
         {frames.slice(0, loadedFramesNum).map((frame, index) =>
           <div
-            onH
+            key={index}
+            onMouseOver={() => updatePosition(index)}
             class="item"
             style={{ display: 'flex', backgroundColor: frame.isKey ? 'lightgray' : 'white' }}
           >
-            <div class="view" style={{ display: 'flex', width: width, flex: 3 }} onDoubleClick={() => skipToKeyFrame(index, frame.imgAddr)} onClick={() => { frame.isKey ? viewKeyFrame(index) : toggleKeyFrame(index, frame.isKey) }}></div>
+            <div class="view" style={{ display: 'flex', width: 10, flex: 3 }} onMouseLeave={()=>hidePreview()} onMouseEnter={(e) => { moveImg(e, frame.isKey, frame.imgAddr) }} onDoubleClick={() => skipToKeyFrame(index, frame.imgAddr)} onClick={() => { frame.isKey ? viewKeyFrame(index) : toggleKeyFrame(index, frame.isKey) }}></div>
             {frame.isKey ? (<div class="remove" style={{ display: 'flex', justifyContent: 'center', backgroundColor: frame.isExtracted ? 'aquamarine' : 'pink', flex: 1 }} onClick={() => toggleKeyFrame(index, frame.isKey)}>x</div>) : (<div style={{ display: 'flex', flex: 0 }} class="none"></div>)}
           </div>
         )}
       </InfiniteScroll>
-
-      <div class="helperText">{statusText}   </div>
     </div>
   );
 }

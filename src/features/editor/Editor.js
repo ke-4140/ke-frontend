@@ -17,7 +17,6 @@ export function Editor() {
   const [intervalID, setIntervalID] = useState(null);
   const [seconds, setSeconds] = useState(800);
   const [isLoading, setIsLoading] = useState(true);
-  const [previewAddr, setPreviewAddr] = useState("");
 
   const opts = {
     height: '390',
@@ -78,11 +77,6 @@ export function Editor() {
     dispatch(initializeFrames(seconds)) ;
   }
 
-  function hovered(img){
-    console.log(img);
-    setPreviewAddr(img);
-  }
-
   return (
     <div>
       <Header />
@@ -96,22 +90,18 @@ export function Editor() {
           <ol>
             <li> Add Keyframe by clicking a frame on Timeline. </li>
             <li> Remove Keyframe by clicking (x) on it. </li>
-            <li> Move Keyframe by dragging it on Timeline </li>
             <li> Click on Keyframe to view the Keyframe on Video Player </li>
+            <li> Hover on Keyframe to preview them</li>
             <li> Double click on frame to play from it</li>
             <li> Export when you feel good about all the Keyframes </li>
           </ol>
-          <span>Keyframe Preview</span>
-          <div style={{ display: 'flex', border: '1px solid black', height: 146, width: 261, justifyContent: 'center', alignItems: 'center', marginLeft: 30  }}>
-                <img src={previewAddr} height={146} width={261} />
-          </div>
 
         </div>
         <YouTube videoId={youtubeURL.split('=')[1]} opts={opts} onReady={onReady} onStateChange={onStateChange} />
       </div>
 
       {!isLoading ? (
-        <Timeline extractionProgress={extractionProgress} isLoading={isLoading} seconds={seconds} player={playerObj} seekTo={seekTo} playAt={playAt} hoverPreview={(img)=>setPreviewAddr(img)} />
+        <Timeline extractionProgress={extractionProgress} isLoading={isLoading} seconds={seconds} player={playerObj} seekTo={seekTo} playAt={playAt} />
       ) : (
         <></>
       )}

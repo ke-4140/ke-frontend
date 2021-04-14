@@ -62,7 +62,7 @@ export const systemSlice = createSlice({
     },
     toggleKeyframeFromFrame: (state, action) => {
       state.frames = state.frames.map(
-        (frame, i) => i === action.payload.index ? { ...frame, isKey: action.payload.status } : frame);
+        (frame, i) => i === action.payload.index ? { ...frame, isKey: action.payload.status, imgAddr: action.payload.imgAddr } : frame);
     }
   },
 });
@@ -77,7 +77,6 @@ export const postYoutubeSrc = (link, history) => dispatch => {
   return axios.post(`http://ke.ddns.net/api/job`, { src: link })
     .then(res => {
       dispatch(setOwner(res.data.data.owner));
-
       history.push("/editor");
     })
     .catch(err => {
@@ -196,11 +195,11 @@ export const fetchNewKeyFrame = (index, status) => (dispatch, getState) => {
 
   console.log('SYSTEM/fetchNewKeyFrame');
   var youtubeURL = getState().system.youtubeURL;
-  dispatch(toggleKeyframeFromFrame({ index: index, status: status }));
   var frameNum = parseInt(index) * 30;
-  var imgAddr = `http://ke.ddns.net/api/frame?src=${youtubeURL}&frame_no=${frameNum}`
+  var addr = 'http://ke.ddns.net/api/frame?src=' + youtubeURL+' &frame_no=' + frameNum;
+  dispatch(toggleKeyframeFromFrame({ index: index, status: status, imgAddr: addr }));
   if (status) //add
-    dispatch(appendKeyFrame({ index: index, status: status, imgAddr: imgAddr }));
+    dispatch(appendKeyFrame({ index: index, status: status, imgAddr: addr }));
   else { //remove
     var keyframes = [...getState().system.keyframes].filter(keyframe => keyframe.vid_time != index);
     dispatch(setKeyFrames(keyframes));
