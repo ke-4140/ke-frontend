@@ -83,7 +83,6 @@ export function Editor() {
     setPreviewAddr(img);
   }
 
-
   return (
     <div>
       <Header />

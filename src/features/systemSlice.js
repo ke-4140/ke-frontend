@@ -198,22 +198,11 @@ export const fetchNewKeyFrame = (index, status) => (dispatch, getState) => {
   var youtubeURL = getState().system.youtubeURL;
   dispatch(toggleKeyframeFromFrame({ index: index, status: status }));
   var frameNum = parseInt(index) * 30;
-  if (status)
-    return axios.get(`http://ke.ddns.net/api/frame`, {
-      params: {
-        src: youtubeURL,
-        frame_no: frameNum
-      }
-    })
-      .then(res => {
-        dispatch(appendKeyFrame({ index: index, status: status, imgAddr: res.data }));
-      })
-      .catch(err => {
-        console.log(err.status);
-      });
-  else {
+  var imgAddr = `http://ke.ddns.net/api/frame?src=${youtubeURL}&frame_no=${frameNum}`
+  if (status) //add
+    dispatch(appendKeyFrame({ index: index, status: status, imgAddr: imgAddr }));
+  else { //remove
     var keyframes = [...getState().system.keyframes].filter(keyframe => keyframe.vid_time != index);
-    // keyframes.filter(keyframe => keyframe.vid_time != index);
     dispatch(setKeyFrames(keyframes));
   }
 };

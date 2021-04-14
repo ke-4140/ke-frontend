@@ -42,11 +42,11 @@ export function PDFTemplate({
                 <img src={content.frame} height={146} width={261} />
               </div>
               {enableTranscript ? (
-                <textarea rows="10" defaultValue={content.transcript} style={{ resize: 'none', width: 261, height: 144 }}>
+                <textarea rows="10" defaultValue={content.transcript} style={{ width: 261, height: 144 }}>
                 
                 </textarea>
               ) : (
-                <textarea rows="10" style={{ resize: 'none', width: 261, height: 144 }}>
+                <textarea rows="10" style={{width: 261, height: 144 }}>
 
                 </textarea>)}
 
@@ -58,7 +58,7 @@ export function PDFTemplate({
       <div style={{ display: 'flex', alignItems:'center', justifyContent: 'center', flexDirection: 'column', margin: 16}}>
 
         <div> Footnote</div>
-        <textarea rows="7" style={{ resize: 'none', width: 550}}>
+        <textarea rows="7" style={{ width: 550}}>
           
         </textarea>
 

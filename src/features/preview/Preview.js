@@ -5,7 +5,7 @@ import { Header } from '../../components/Header';
 import { Button } from '../../components/Button';
 import { Card } from '../../components/Card';
 import { PDFTemplate } from './PDFTemplate'
-import { selectContents, selectPdfTotalPages, processFrameScriptTuple } from '../systemSlice';
+import { selectContents, processFrameScriptTuple } from '../systemSlice';
 
 export function Preview() {
   const dispatch = useDispatch();
@@ -30,7 +30,7 @@ export function Preview() {
 
     // var originalContents = document.getElementById('original').innerHTML;
     // document.body.innerHTML = printContents;
-    
+
     document.title = title;
     window.print();
 
