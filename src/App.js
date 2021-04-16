@@ -14,15 +14,15 @@ function App() {
   const [link, setLink] = useState('https://www.youtube.com/watch?v=a6sNwOSAxoo');
   const demoLinks = [
     {
-      url: "https://www.youtube.com/watch?v=-dhMbVEreII",
-      name: "How To Build A Chrome Extension (2021 Web Development)",
-      vid_time: '27:15',
+      url: "https://www.youtube.com/watch?v=rOTqprHv1YE",
+      name: "What Is Docker? | What Is Docker And How It Works? | Docker Tutorial For Beginners | Simplilearn",
+      vid_time: '15:51',
       pdf: ''
     },
     {
-      url: "https://www.youtube.com/watch?v=mQpureQcEXM",
-      name: "Webinar: Continuous Delivery with Docker, Kubernetes, and GoCD",
-      vid_time: '50:17',
+      url: "https://www.youtube.com/watch?v=mgipNdAgQ3o",
+      name: "Ten SQL Tricks that You Didn’t Think Were Possible (Lukas Eder)",
+      vid_time: '45:09',
       pdf: ''
 
     },
@@ -82,7 +82,7 @@ function App() {
             <div style={{ display: 'flex', height: 300, flexDirection: 'column', alignItems: "center", textAlign: 'center', justifyContent: 'space-around' }}>
               <YouTube videoId={demoLink.url.split('=')[1]} opts={opts} />
               <span> {demoLink.name} </span>
-              <text> Duration: {demoLink.vid_time}</text>
+              <div>Duration: {demoLink.vid_time}</div>
               <Button label="Try the Demo" onClick={() => submitURL(demoLink.url)}></Button>
               <Button label="Download Result PDF" onClick={() => downloadPdf(demoLink.pdf)}></Button>
             </div>
