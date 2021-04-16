@@ -125,10 +125,9 @@ function App() {
       </div>
 
       <div className='menu'>
-        {/* const [demoLink, setDemoLink] = useState('https://www.youtube.com/watch?v=a6sNwOSAxoo'); */}
         <Card flexDirection='row' width="814px" height="340px">
           {demoLinks.map((demoLink, i) => (
-            <div style={{ display: 'flex', height: 300, flexDirection: 'column', alignItems: "center", textAlign: 'center', justifyContent: 'space-around' }}>
+            <div style={{ display: 'flex',flex:1,  height: 300,  flexDirection: 'column', alignItems: "center", textAlign: 'center', justifyContent: 'space-around' }}>
               <YouTube videoId={demoLink.url.split('=')[1]} opts={opts} />
               <span> {demoLink.name} </span>
               <div>Duration: {demoLink.vid_time}</div>

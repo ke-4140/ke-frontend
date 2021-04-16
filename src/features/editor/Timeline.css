@@ -1,6 +1,5 @@
 .wrapper {
   height: 110px;
-  background-color: whitesmoke;
   display: flex;
   align-items: 'center';
   overflow-x: scroll;
@@ -21,9 +20,7 @@
 }
 
 .item {
-  
   height: 90px; 
-  border: 1px solid gainsboro;
   border-width: 1;
   min-width: 10px;
   text-align: center;
