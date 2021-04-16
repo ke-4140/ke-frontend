@@ -24,7 +24,8 @@
   padding-right: 200px;
   text-align: left;
   /* margin-top: 50px; */
-  margin-bottom: 50px;
+  margin-bottom: 60px;
+  margin-top: 10px;
 }
 
 
@@ -38,9 +39,9 @@
 .app h1 {
     text-align: left;
     /* animation: App-logo-float infinite 3s ease-in-out; */
-    font-size: 60px;
-    width: 614px;
-    padding-right: 200px;
+    font-size: 56px;
+    width: 574px;
+    padding-right: 240px;
     font-weight: 100;
   }
 }

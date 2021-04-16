@@ -81,12 +81,12 @@ function App() {
           Extract what matters in a video
           <div style={{
             position: "absolute",
-            left: 514,
-            top: 100,
+            left: 444,
+            top: -40,
           }}>
             <img src="landing-image.png"
               style={{
-                width: 300,
+                width: 400,
               }} />
           </div>
         </h1>
