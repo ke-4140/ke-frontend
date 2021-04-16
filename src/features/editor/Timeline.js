@@ -90,7 +90,6 @@ export function Timeline({ seconds, player, seekTo, playAt, extractionProgress }
         <img height={146} width={261} style={{ position: 'absolute', visibility: 'hidden', borderStyle: 'solid', borderWidth: '1px' , borderColor: 'grey' }} src={previewImage} id='preview' />
       </div>
       <div class="controlPane">
-        <span>[Keyframes Extraction Status: {extractionProgress}% extracted]</span>
         <span class="helperText">{statusText}</span>
         <div class="controlButtons">
           <span> {secondsToMinutes(Math.floor(progress))} /{secondsToMinutes(seconds)} </span>
@@ -99,7 +98,6 @@ export function Timeline({ seconds, player, seekTo, playAt, extractionProgress }
 
       <div class="progressBar">
         {/* {console.log(progress/seconds)} */}
-        <div class="ExtractProgressNode" style={{ width: `${extractionProgress}%` }} />
         <div class="TimeProgressNode" style={{ width: `${progress / seconds * 100}%` }} />
       </div>
 
@@ -116,7 +114,7 @@ export function Timeline({ seconds, player, seekTo, playAt, extractionProgress }
             style={{ display: 'flex', backgroundColor: frame.isKey ? 'lightgray' : 'white' }}
           >
             <div class="view" style={{ display: 'flex', width: 10, flex: 3 }} onMouseLeave={()=>hidePreview()} onMouseEnter={(e) => { moveImg(e, frame.isKey, frame.imgAddr) }} onDoubleClick={() => skipToKeyFrame(index, frame.imgAddr)} onClick={() => { frame.isKey ? viewKeyFrame(index) : toggleKeyFrame(index, frame.isKey) }}></div>
-            {frame.isKey ? (<div class="remove" style={{ display: 'flex', justifyContent: 'center', backgroundColor: frame.isExtracted ? 'aquamarine' : 'pink', flex: 1 }} onClick={() => toggleKeyFrame(index, frame.isKey)}>x</div>) : (<div style={{ display: 'flex', flex: 0 }} class="none"></div>)}
+            {frame.isKey ? (<div class="remove" style={{ display: 'flex', justifyContent: 'center', backgroundColor: frame.isExtracted ? 'aquamarine' : 'pink', flex: 1, cursor: "pointer" }} onClick={() => toggleKeyFrame(index, frame.isKey)}>×</div>) : (<div style={{ display: 'flex', flex: 0 }} class="none"></div>)}
           </div>
         )}
       </InfiniteScroll>

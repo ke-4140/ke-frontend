@@ -50,52 +50,73 @@ export function Preview() {
         <Header />
       </div>
 
-      <div id='hideButtons' style={{ display: 'flex', marginRight: 20, marginBottom: 10, justifyContent: 'flex-end' }}>
-        <Button label="Back" onClick={() => {history.push("editor")}}></Button>
-        <Button label="Finish" onClick={() => finishPreview()}></Button>
+      <div id='hideButtons' style={{ display: 'flex', marginRight: 20, marginBottom: 30, justifyContent: 'flex-end' }}>
+        <Button label="Back" onClick={() => { history.push("editor") }}></Button>
+        <Button label="Print as PDF" onClick={() => triggerPrint()}></Button>
+        {/* <Button label="Finish" onClick={() => finishPreview()}></Button> */}
       </div>
-      <div id='hide' style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginInline: 20 }}>
-        <Card height={'20%'} width={'80%'} flexDirection={'column'}>
-          <div>
-            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-              <div style={{ display: 'flex', flex: 1, alignItems: 'center' }} > Page Title:
-              <input style={{ width: 180, margin: 5 }} class="input" type="text" value={title} onChange={(e) => setTitle(e.target.value)}></input>
-              </div>
-              <div style={{ display: 'flex', flex: 2 }} >Export Format:
-              <div onChange={() => switchEnableTranscript(!enableTranscript)}>
-                  <div>
-                    <input type="radio" id="ft" name="ft" value="ft" checked={enableTranscript} />
-                    <label for="ft">Frames and Transcript</label>
-                  </div>
-                  <div>
-                    <input type="radio" id="fe" name="fe" value="fe" checked={!enableTranscript} />
-                    <label for="fe">Frames only</label>
+
+      <div style={{ display: 'flex', flexDirection: 'row' }}>
+        <div id='hide' style={{ display: 'flex', flexDirection: 'column',  alignItems: 'center', marginInline: 20 }}>
+          <Card height={'auto'} width={'auto'} flexDirection={'column'}>
+            <div>
+              <div style={{ display: 'flex', flexDirection: 'column', margin: 5 }}>
+
+                <h2>Export Options</h2>
+
+                <br />
+
+                <div style={{ display: 'flex', flexDirection: 'column' }} >
+                  <div style={{fontWeight: "bold"}}>Page Title</div>
+                  <input style={{ width: 180, margin: 5 }} type="text" value={title} onChange={(e) => setTitle(e.target.value)}></input>
+                </div>
+
+                <br />
+
+                <div style={{ display: 'flex', flexDirection: 'column' }} >
+                  <div style={{fontWeight: "bold"}}>Export Format</div>
+                  <div onChange={() => switchEnableTranscript(!enableTranscript)}>
+                    <div>
+                      <input type="radio" id="ft" name="ft" value="ft" checked={enableTranscript} />
+                      <label for="ft">Frames and Transcript</label>
+                    </div>
+                    <div>
+                      <input type="radio" id="fe" name="fe" value="fe" checked={!enableTranscript} />
+                      <label for="fe">Frames only</label>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div style={{ display: 'flex', flex: 1 }}>Enable Key Frame Analysis:
-              <input type="checkbox" id="KFA" name="KFA" checked={enableKFA} onChange={() => switchEnableKFA(!enableKFA)}></input>
+
+                <br />
+
+                <div style={{ display: 'flex', flex: 1 }}>
+                  <input type="checkbox" id="KFA" name="KFA" checked={enableKFA} onChange={() => switchEnableKFA(!enableKFA)}></input>
+                  <div>Enable Key Frame Analysis</div>
+                </div>
+
+                <br />
+
               </div>
             </div>
+          </Card>
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginInline: 20, height: "100%"}}>
+          <div id="toPrint" style={{ overflowY: 'scroll', height: 600, display: 'block', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginInline: 20, backgroundColor: "white" }}>
+            {enableKFA ? (<PDFTemplate title={title} KFA={true} />) : (<> </>)}
+
+            {contents ? (
+              contents.map((contents, index) =>
+                <>
+                  <PDFTemplate key={index} title={title} contents={contents} enableKFA={enableKFA} enableTranscript={enableTranscript} />
+                  <div class="pagebreak"> </div>
+                </>
+              )
+            ) : <div>loading...</div>}
+
           </div>
-          <Button label="Print as PDF" onClick={() => triggerPrint()}></Button>
-        </Card>
-      </div>
-      <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginInline: 20 }}>
-        <div id="toPrint" style={{ overflowY: 'scroll', height: 580, display: 'block', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginInline: 20 }}>
-          {enableKFA ? (<PDFTemplate title={title} KFA={true} />) : (<> </>)}
-
-          {contents ? (
-            contents.map((contents, index) =>
-              <>
-                <PDFTemplate key={index} title={title} contents={contents} enableKFA={enableKFA} enableTranscript={enableTranscript} />
-                <div class="pagebreak"> </div>
-              </>
-            )
-          ) : <div>loading...</div>}
-
         </div>
       </div>
+
     </div>
   );
 }

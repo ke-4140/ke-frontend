@@ -80,11 +80,11 @@ export function Editor() {
   return (
     <div>
       <Header />
-      <div style={{ display: 'flex', marginRight: 20, marginBottom: 10, justifyContent: 'flex-end' }}>
+      <div style={{ display: 'flex', marginRight: 20, marginBottom: 30, justifyContent: 'flex-end' }}>
         <Button onClick={() => resetKeyframes()} label="Reset Keyframes"></Button>
         <Button onClick={() => saveAndPreview()} label="Preview PDF"></Button>
       </div>
-      <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', height: '400px', marginInline: 20 }}>
+      <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', height: '400px', marginInline: 20, position: "relative" }}>
         <div>
           <span>Instruction</span>
           <ol>
@@ -95,6 +95,13 @@ export function Editor() {
             <li> Double click on frame to play from it</li>
             <li> Export when you feel good about all the Keyframes </li>
           </ol>
+
+          <div style={{position: "absolute", bottom: 30}}>
+            <span>Automatic Extraction Status: {extractionProgress}% extracted</span>
+            <div style={{backgroundColor: "#ddd", height: 5}}>
+              <div class="ExtractProgressNode" style={{ width: `${extractionProgress}%` }} />
+            </div>
+          </div>
 
         </div>
         <YouTube videoId={youtubeURL.split('=')[1]} opts={opts} onReady={onReady} onStateChange={onStateChange} />

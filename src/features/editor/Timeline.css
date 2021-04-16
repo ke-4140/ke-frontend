@@ -7,7 +7,7 @@
 }
 
 .progressBar {
-  height: 10px;
+  height: 5px;
   width: 100%;
   background-color:lightgray;
 }
@@ -17,7 +17,7 @@
 }
 .ExtractProgressNode {
   height: 5px;
-  background-color: aquamarine;
+  background-color: #1d8102;
 }
 
 .item {
