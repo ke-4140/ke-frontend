@@ -1,5 +1,5 @@
 import React from 'react';
-export function PDFTemplate({contents = [], title = "Nice Slides", KFA = false }) {
+export function PDFTemplate({ contents = [], title = "Nice Slides", KFA = false }) {
   var blockCounts = 0;
   return (
     <div style={{ width: 595 - 44, height: 595 * 1.618 - 44, padding: 24 }}>
@@ -30,7 +30,6 @@ export function PDFTemplate({contents = [], title = "Nice Slides", KFA = false }
                   </textarea>
                 </div>
               )}
-
             </div>
           ))}
         </div>)}
