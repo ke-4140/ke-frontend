@@ -1,5 +1,5 @@
 import React from 'react';
-export function PDFTemplate({ contents = [], attributes = "loading", KFA = true }) {
+export function PDFTemplate({ contents = [{frame:'https://149359300.v2.pressablecdn.com/wp-content/uploads/2019/11/placeholder.png'}], attributes = "loading", KFA = true }) {
   var blockCounts = 0;
 
   function getToday() {
@@ -49,7 +49,7 @@ export function PDFTemplate({ contents = [], attributes = "loading", KFA = true 
                   <div style={{ display: 'flex', marginBottom: 16, border: '1px solid black', height: 146, width: 261, justifyContent: 'center', alignItems: 'center' }}>
                     <img src={content.frame} height={146} width={261} />
                   </div>
-                  <textarea resize='auto' rows={content.layoutTypeRows == 2 ? "10" : (content.layoutTypeRows == 3 ? "22" : "33")} defaultValue={content.transcript + ":" + content.layoutTypeRows + ":" + content.transcript.length} style={{ width: 546 }}>
+                  <textarea resize='auto' rows={content.layoutTypeRows == 2 ? "10" : (content.layoutTypeRows == 3 ? "22" : "33")} defaultValue={content.transcript} style={{ width: 546 }}>
                   </textarea>
                 </div>
               )}

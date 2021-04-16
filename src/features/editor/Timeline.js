@@ -86,7 +86,7 @@ export function Timeline({ seconds, player, seekTo, playAt, extractionProgress }
 
   return (
     <div>
-      <div onMouseMove="moveImg(event)">
+      <div>
         <img height={146} width={261} style={{ position: 'absolute', visibility: 'hidden', borderStyle: 'solid', borderWidth: '1px' , borderColor: 'grey' }} src={previewImage} id='preview' />
       </div>
       <div class="controlPane">

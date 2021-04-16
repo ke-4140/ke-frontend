@@ -14,9 +14,10 @@ export function Preview() {
   const attributes = useSelector(selectAttributes);
   const [title, setTitle] = useState('New Note');
   const [enableTranscript, switchEnableTranscript] = useState(true);
-  const [enableKFA, switchEnableKFA] = useState(false);
+  const [enableKFA, switchEnableKFA] = useState(true);
 
   useEffect(() => {
+    setTitle("KE_" + attributes.title)
     dispatch(processFrameScriptTuple(4)); //reduce frame scripts duples to group of 4. 
   }, []);
 
@@ -35,10 +36,6 @@ export function Preview() {
 
   function finishPreview() {
     history.push("/");
-  }
-
-  function autoLayout() {
-    dispatch(processFrameScriptTuple(4))
   }
 
   return (
