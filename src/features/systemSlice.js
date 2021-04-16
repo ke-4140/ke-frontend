@@ -6,7 +6,7 @@ export const systemSlice = createSlice({
   initialState: {
     logo: "KE",
     extractionDetails: null,
-    pdfTotalPages: null,
+    attributes: null,
     youtubeURL: "",
     frames: [],
     keyframes: [],
@@ -30,8 +30,8 @@ export const systemSlice = createSlice({
     setFrameScriptTuple: (state, action) => {
       state.frameScriptTuple = action.payload;
     },
-    setPdfTotalPages: (state, action) => {
-      state.pdfTotalPages = action.payload;
+    setAttributes: (state, action) => {
+      state.attributes = action.payload;
     },
     setContents: (state, action) => {
       state.contents = action.payload;
@@ -67,7 +67,7 @@ export const systemSlice = createSlice({
   },
 });
 
-export const { toggleKeyframeFromFrame, setKeyFrames, setExtractionDetails, setTotalVideoTime, addLoadedFramesNum, setExtractionProgress, completesJob, appendKeyFrame, addKeyframes, setOwner, setYoutubeURL, setFrames, setFrameScriptTuple, setPdfTotalPages, setContents } = systemSlice.actions;
+export const { toggleKeyframeFromFrame, setKeyFrames, setExtractionDetails, setTotalVideoTime, addLoadedFramesNum, setExtractionProgress, completesJob, appendKeyFrame, addKeyframes, setOwner, setYoutubeURL, setFrames, setFrameScriptTuple, setAttributes, setContents } = systemSlice.actions;
 
 
 export const postYoutubeSrc = (link, history) => dispatch => {
@@ -88,6 +88,7 @@ export const getJobStatus = () => (dispatch, getState) => {
 
   const owner = getState().system.owner;
   const src = getState().system.youtubeURL;
+  const attributes = getState().system.attributes;
   const frames = getState().system.frames;
   console.log('SYSTEM/getJobStatus')
   // console.log("frames: ", frames);
@@ -99,15 +100,10 @@ export const getJobStatus = () => (dispatch, getState) => {
     }
   })
     .then(res => {
-      // console.log(res.data.data);
-      // console.log(res.data.data.outputs.length);
+
       var attributesJSON = JSON.parse(res.data.data.job.attributes);
-      // if (res.data.data.outputs.length == 0 && res.data.data.job.status == "running") {
-      //   // also add other important data about the video 
-      //   dispatch(setExtractionDetails(attributesJSON));
-      //   dispatch(setTotalVideoTime(attributesJSON.length));
-      //   dispatch(initializeFrames(attributesJSON.length));
-      // }
+      if (attributes==null)
+        dispatch(setAttributes(attributesJSON));
       dispatch(addKeyframes(res.data.data.outputs));
       dispatch(fetchKeyFrames(res.data.data.outputs[0].id))
       dispatch(setExtractionProgress(Math.round(res.data.data.outputs[res.data.data.outputs.length - 1].vid_time * 100 / attributesJSON.length)));
@@ -189,9 +185,9 @@ export const processFrameScriptTuple = (n) => (dispatch, getState) => {
   };
 
   function getRows(text_length){
-    var l_breakpoint = 700;
     var m_breakpoint = 280;
-    var xl_breakpoint = 900;
+    var l_breakpoint = 700;
+    var xl_breakpoint = 1200;
 
     if(text_length > xl_breakpoint)
     return 4
@@ -212,7 +208,6 @@ export const processFrameScriptTuple = (n) => (dispatch, getState) => {
     }));
 
     console.log(contents)
-
     dispatch(setContents(contents));
   }).catch(function (error) {
     console.log(error);
@@ -254,7 +249,7 @@ export const selectExtractionProgress = state => state.system.extractionProgress
 export const selectYoutubeURL = state => state.system.youtubeURL;
 export const selectFrames = state => state.system.frames;
 export const selectFrameScriptTuple = state => state.system.frameScriptTuple;
-export const selectPdfTotalPages = state => state.system.pdfTotalPages;
+export const selectAttributes = state => state.system.attributes;
 export const selectContents = state => state.system.contents;
 
 export default systemSlice.reducer;

@@ -5,12 +5,13 @@ import { Header } from '../../components/Header';
 import { Button } from '../../components/Button';
 import { Card } from '../../components/Card';
 import { PDFTemplate } from './PDFTemplate'
-import { selectContents, processFrameScriptTuple } from '../systemSlice';
+import { selectContents,selectAttributes,  processFrameScriptTuple } from '../systemSlice';
 
 export function Preview() {
   const dispatch = useDispatch();
   const history = useHistory();
   const contents = useSelector(selectContents);
+  const attributes = useSelector(selectAttributes);
   const [title, setTitle] = useState('New Note');
   const [enableTranscript, switchEnableTranscript] = useState(true);
   const [enableKFA, switchEnableKFA] = useState(false);
@@ -45,9 +46,8 @@ export function Preview() {
       <div id='hideHeader'>
         <Header />
       </div>
-
       <div id='hideButtons' style={{ display: 'flex', marginRight: 20, marginBottom: 10, justifyContent: 'flex-end' }}>
-        <Button label="Back" onClick={() => {history.push("editor")}}></Button>
+        <Button label="Back" onClick={() => { history.push("editor") }}></Button>
         <Button label="Finish" onClick={() => finishPreview()}></Button>
       </div>
       <div id='hide' style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginInline: 20 }}>
@@ -79,7 +79,8 @@ export function Preview() {
       </div>
       <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginInline: 20 }}>
         <div id="toPrint" style={{ overflowY: 'scroll', height: 580, display: 'block', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginInline: 20 }}>
-                <PDFTemplate title={title} contents={contents} enableKFA={enableKFA} enableTranscript={enableTranscript} />
+        {enableKFA ? (<PDFTemplate title={title} contents={contents} attributes={attributes} KFA={true} /> ) : (<></> )}
+          <PDFTemplate title={title} contents={contents} KFA={false}/>
         </div>
       </div>
     </div>
