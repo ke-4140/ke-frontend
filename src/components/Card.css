@@ -1,13 +1,15 @@
 .card {
-  border: 1px solid gray;
+  /* border: 1px solid gray; */
+  background-color: white;
   display: flex;
   justify-content: space-evenly ;
   align-items: center;
   flex-direction: column;
   margin: 5px;
   padding: 10px;
+  border-radius: 5px;
 }
 
 span {
-  font-family: "Oswald";
+  
 }

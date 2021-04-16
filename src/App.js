@@ -1,4 +1,5 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Header } from './components/Header';
 import { Button } from './components/Button';
 import { Card } from './components/Card';
@@ -6,7 +7,7 @@ import './App.css';
 import YouTube from 'react-youtube';
 import { useDispatch } from 'react-redux';
 import { useHistory } from "react-router-dom";
-import { postYoutubeSrc, submitURL} from "../src/features/systemSlice";
+import { postYoutubeSrc, submitURL } from "../src/features/systemSlice";
 
 function App() {
 
@@ -43,7 +44,7 @@ function App() {
     dispatch(postYoutubeSrc(link, history));
   }
 
-  function downloadPdf(pdf){
+  function downloadPdf(pdf) {
 
   }
 
@@ -57,7 +58,7 @@ function App() {
 
   return (
     <div className='app'>
-      <Header />
+      {/* <Header />
       <h1>Videos to  Frames with Key Extractor</h1>
       <div style={{ display: 'flex', alignItems: "center", justifyContent: "center" }}>
         <div>
@@ -66,15 +67,63 @@ function App() {
               <span>Paste Youtube Link: </span>
               <input class="input" type="text" value={link} onChange={(e) => setLink(e.target.value)}></input>
             </div>
-            {/* <span> or </span>
-        <div style={{display:'flex', flexDirection:'row', justifyContent: 'space-between'}}>
-          <span>Upload Video:  </span>
-          <input type="file" name="VideoToUpload" id="VideoToUpload" />
-        </div> */}
             <Button label="Ready to Edit" onClick={() => submitURL(link)}></Button>
           </Card>
+        </div> */}
+      {/* <Header /> */}
+      <div style={{ marginTop: 100, display: "flex", alignItems: "center", justifyContent: "center", }}>
+        <div style={{ width: 814 }}>
+          <Link to="/" style={{ fontWeight: "bolder", textDecoration: "none", color: "black" }}>Keyframe Extractor</Link>
         </div>
       </div>
+      <div style={{ display: 'flex', alignItems: "center", justifyContent: "center", flexDirection: "column" }}>
+        <h1 style={{ position: "relative" }}>
+          Extract what matters in a video
+          <div style={{
+            position: "absolute",
+            left: 444,
+            top: -40,
+          }}>
+            <img src="landing-image.png"
+              style={{
+                width: 400,
+              }} />
+          </div>
+        </h1>
+        <div className="subheading">
+          Detect key frames, transcribe video, export PDF.
+          <br />
+          All can be done in a few clicks.
+        </div>
+
+        <div style={{
+          marginBottom: 60,
+          width: 814
+        }}>
+          <span>Tired of watching hour-long videos?</span>
+
+          <div style={{ height: 8 }} />
+
+          <div style={{
+            display: "flex",
+            width: "fit-content",
+            flexDirection: "row",
+            backgroundColor: "white",
+            // border: "1px solid black",
+            padding: 8,
+            borderRadius: 5,
+            boxShadow: "5px 10px 20px #DADADA",
+          }}>
+            <input className="input" type="text" value={link} onChange={(e) => setLink(e.target.value)}></input>
+            <Button label="Ready to Edit" onClick={() => submitURL(link)}></Button>
+          </div>
+        </div>
+      </div>
+
+      <div style={{height: 50, textAlign: "center", marginTop: 30}}>
+        Demo
+      </div>
+
       <div className='menu'>
         {/* const [demoLink, setDemoLink] = useState('https://www.youtube.com/watch?v=a6sNwOSAxoo'); */}
         <Card flexDirection='row' width="814px" height="340px">
@@ -90,6 +139,9 @@ function App() {
 
         </Card>
       </div>
+
+      <div style={{ height: 40 }} />
+
     </div>
   );
 }
