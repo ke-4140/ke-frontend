@@ -56,7 +56,7 @@ export function Preview() {
         {/* <Button label="Finish" onClick={() => finishPreview()}></Button> */}
       </div>
 
-      <div style={{ display: 'flex', flexDirection: 'row' }}>
+      <div style={{ display: 'flex', flexDirection: 'row', justifyContent: "center" }}>
         <div id='hide' style={{ display: 'flex', flexDirection: 'column',  alignItems: 'center', marginInline: 20 }}>
           <Card height={'auto'} width={'auto'} flexDirection={'column'}>
             <div>
