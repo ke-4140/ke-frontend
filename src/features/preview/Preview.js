@@ -37,7 +37,7 @@ export function Preview() {
   }
 
   function autoLayout() {
-    dispatch(processFrameScriptTuple())
+    dispatch(processFrameScriptTuple(4))
   }
 
   return (
@@ -60,37 +60,26 @@ export function Preview() {
               <div style={{ display: 'flex', flex: 2 }} >Export Format:
               <div onChange={() => switchEnableTranscript(!enableTranscript)}>
                   <div>
-                    <input type="radio" id="ft" name="ft" value="ft" checked={enableTranscript} />
+                    <input type="radio" id="ft" name="ft" value="ft" defaultChecked={enableTranscript} />
                     <label for="ft">Frames and Transcript</label>
                   </div>
                   <div>
-                    <input type="radio" id="fe" name="fe" value="fe" checked={!enableTranscript} />
+                    <input type="radio" id="fe" name="fe" value="fe" defaultChecked={!enableTranscript} />
                     <label for="fe">Frames only</label>
                   </div>
                 </div>
               </div>
               <div style={{ display: 'flex', flex: 1 }}>Enable Key Frame Analysis:
-              <input type="checkbox" id="KFA" name="KFA" checked={enableKFA} onChange={() => switchEnableKFA(!enableKFA)}></input>
+              <input type="checkbox" id="KFA" name="KFA" defaultChecked={enableKFA} onChange={() => switchEnableKFA(!enableKFA)}></input>
               </div>
             </div>
           </div>
           <Button label="Print as PDF" onClick={() => triggerPrint()}></Button>
-          <Button label="Auto Layout" onClick={() => autoLayout()}></Button>
         </Card>
       </div>
       <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginInline: 20 }}>
         <div id="toPrint" style={{ overflowY: 'scroll', height: 580, display: 'block', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginInline: 20 }}>
-          {enableKFA ? (<PDFTemplate title={title} KFA={true} />) : (<> </>)}
-
-          {contents ? (
-            contents.map((contents, index) =>
-              <>
-                <PDFTemplate key={index} title={title} contents={contents} enableKFA={enableKFA} enableTranscript={enableTranscript} />
-                <div class="pagebreak"> </div>
-              </>
-            )
-          ) : <div>loading...</div>}
-
+                <PDFTemplate title={title} contents={contents} enableKFA={enableKFA} enableTranscript={enableTranscript} />
         </div>
       </div>
     </div>

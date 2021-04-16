@@ -188,25 +188,32 @@ export const processFrameScriptTuple = (n) => (dispatch, getState) => {
     }
   };
 
+  function getRows(text_length){
+    var l_breakpoint = 700;
+    var m_breakpoint = 280;
+    var xl_breakpoint = 900;
+
+    if(text_length > xl_breakpoint)
+    return 4
+    else if (text_length > l_breakpoint)
+    return 3
+    else if (text_length > m_breakpoint)
+    return 2
+    else return 1;
+    
+  }
+
   axios.request(options).then(function (response) {
-    console.log(response.data.data);
-    var TestFrameScriptTuple = Array.from({ length: keyframes.length }, (v, k) => k).map(k => ({
+    var contents = Array.from({ length: keyframes.length }, (v, k) => k).map(k => ({
       id: `fsd-${k}`,
       frame: keyframes[k].img_addr,
-      transcript: `test script ${k}`
+      transcript: response.data.data[k].text,
+      layoutTypeRows: getRows(response.data.data[k].text.length)
     }));
 
-    var contents = TestFrameScriptTuple.reduce(function (contents, key, index) {
-      return (index % n == 0 ? contents.push([key])
-        : contents[contents.length - 1].push(key)) && contents;
-    }, []);
-
-    console.log(TestFrameScriptTuple);
-    console.log(contents);
+    console.log(contents)
 
     dispatch(setContents(contents));
-    dispatch(setPdfTotalPages(TestFrameScriptTuple.length / n));
-    dispatch(setFrameScriptTuple(TestFrameScriptTuple));
   }).catch(function (error) {
     console.log(error);
   });
