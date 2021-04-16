@@ -10,7 +10,7 @@ export function Button({
   height= '25px' // (large, medium, small) 
 }) {
   return (
-    <div type="button" className="button" style={{width: width, height: height}} onClick={onClick}>
+    <div type="button" className="button" style={{width: width}} onClick={onClick}>
       <span className="label">{label}</span>
     </div>
   )

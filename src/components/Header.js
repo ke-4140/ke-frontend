@@ -21,7 +21,7 @@ export function Header() {
           <Link className="tabItem" to="/preview">Preview</Link>
           <Link className="tabItem" to="/download">Download</Link> */}
       </div>
-      <hr className="divider" class="solid"></hr>
+      {/* <hr className="divider" class="solid"></hr> */}
     </header>
   );
 }

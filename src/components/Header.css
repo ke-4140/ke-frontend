@@ -1,19 +1,19 @@
 .topNavBar{
   display:flex;
-  width: 100%;
   flex-direction: row;
-  justify-content: center;
+  /* justify-content: center; */
   align-items: center;
-  padding: 5px;
+  padding: 15px;
 }
 
 .logo{
-  padding-left:20px;
+  /* padding-left: 15px; */
   text-align: center;
-  font-size: 40px;
+  font-size: 30px;
   text-decoration: none;
+  font-weight: bold;
   color:black;
-  font-family: "Oswald";
+  letter-spacing: -0.15em;
 }
 
 .tabItem{
@@ -30,4 +30,9 @@
 
 .diviver {
   display:flex;
+}
+
+.solid {
+  margin: 0;
+  margin-bottom: 10px;
 }
