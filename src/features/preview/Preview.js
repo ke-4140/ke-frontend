@@ -19,29 +19,25 @@ export function Preview() {
     dispatch(processFrameScriptTuple(4)); //reduce frame scripts duples to group of 4. 
   }, []);
 
-
-
   function triggerPrint() {
     document.getElementById('toPrint').style.overflow = 'unset';
-    // document.getElementById('hide').style.visibility = 'hidden';
     document.getElementById('hide').style.display = 'none';
     document.getElementById('hideHeader').style.display = 'none';
     document.getElementById('hideButtons').style.display = 'none';
-
-    // var originalContents = document.getElementById('original').innerHTML;
-    // document.body.innerHTML = printContents;
-
     document.title = title;
     window.print();
-
     document.getElementById('hide').style.display = 'flex';
     document.getElementById('hideButtons').style.display = 'flex';
-    document.getElementById('hideHeader').style.display = 'flex';
+    document.getElementById('hideHeader').style.display = 'block';
     document.getElementById('toPrint').style.overflow = 'scroll';
   }
 
   function finishPreview() {
     history.push("/");
+  }
+
+  function autoLayout() {
+    dispatch(processFrameScriptTuple())
   }
 
   return (
@@ -79,6 +75,7 @@ export function Preview() {
             </div>
           </div>
           <Button label="Print as PDF" onClick={() => triggerPrint()}></Button>
+          <Button label="Auto Layout" onClick={() => autoLayout()}></Button>
         </Card>
       </div>
       <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginInline: 20 }}>

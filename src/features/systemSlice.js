@@ -170,25 +170,46 @@ export const processFrameScriptTuple = (n) => (dispatch, getState) => {
   console.log('SYSTEM/processFrameScriptTuple')
   var keyframes = [...getState().system.keyframes];
   keyframes.sort(compare);
-  //fetch from server
+  var youtubeURL = getState().system.youtubeURL;
 
-  var TestFrameScriptTuple = Array.from({ length: keyframes.length }, (v, k) => k).map(k => ({
-    id: `fsd-${k}`,
-    frame: keyframes[k].img_addr,
-    transcript: `test script ${k}`
-  }));
+  var timestampsStrings = "[0";
+  keyframes.map((keyframe, index) => (
+    timestampsStrings += ',' + keyframe.vid_time.toString()
+  ));
+  timestampsStrings += ']'
 
-  var contents = TestFrameScriptTuple.reduce(function (contents, key, index) {
-    return (index % n == 0 ? contents.push([key])
-      : contents[contents.length - 1].push(key)) && contents;
-  }, []);
+  const options = {
+    method: 'GET',
+    url: 'http://ke.ddns.net/api/transcript',
+    headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
+    params: { // was data: {
+      src: youtubeURL,
+      timestamps: timestampsStrings
+    }
+  };
 
-  console.log(TestFrameScriptTuple);
-  console.log(contents);
+  axios.request(options).then(function (response) {
+    console.log(response.data.data);
+    var TestFrameScriptTuple = Array.from({ length: keyframes.length }, (v, k) => k).map(k => ({
+      id: `fsd-${k}`,
+      frame: keyframes[k].img_addr,
+      transcript: `test script ${k}`
+    }));
 
-  dispatch(setContents(contents));
-  dispatch(setPdfTotalPages(TestFrameScriptTuple.length / n));
-  dispatch(setFrameScriptTuple(TestFrameScriptTuple));
+    var contents = TestFrameScriptTuple.reduce(function (contents, key, index) {
+      return (index % n == 0 ? contents.push([key])
+        : contents[contents.length - 1].push(key)) && contents;
+    }, []);
+
+    console.log(TestFrameScriptTuple);
+    console.log(contents);
+
+    dispatch(setContents(contents));
+    dispatch(setPdfTotalPages(TestFrameScriptTuple.length / n));
+    dispatch(setFrameScriptTuple(TestFrameScriptTuple));
+  }).catch(function (error) {
+    console.log(error);
+  });
 };
 
 export const fetchNewKeyFrame = (index, status) => (dispatch, getState) => {
@@ -196,7 +217,7 @@ export const fetchNewKeyFrame = (index, status) => (dispatch, getState) => {
   console.log('SYSTEM/fetchNewKeyFrame');
   var youtubeURL = getState().system.youtubeURL;
   var frameNum = parseInt(index) * 30;
-  var addr = 'http://ke.ddns.net/api/frame?src=' + youtubeURL+' &frame_no=' + frameNum;
+  var addr = 'http://ke.ddns.net/api/frame?src=' + youtubeURL + ' &frame_no=' + frameNum;
   dispatch(toggleKeyframeFromFrame({ index: index, status: status, imgAddr: addr }));
   if (status) //add
     dispatch(appendKeyFrame({ index: index, status: status, imgAddr: addr }));

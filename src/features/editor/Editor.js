@@ -73,15 +73,10 @@ export function Editor() {
     history.push("/preview");
   }
 
-  function resetKeyframes() {
-    dispatch(initializeFrames(seconds)) ;
-  }
-
   return (
     <div>
       <Header />
       <div style={{ display: 'flex', marginRight: 20, marginBottom: 10, justifyContent: 'flex-end' }}>
-        <Button onClick={() => resetKeyframes()} label="Reset Keyframes"></Button>
         <Button onClick={() => saveAndPreview()} label="Preview PDF"></Button>
       </div>
       <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', height: '400px', marginInline: 20 }}>
