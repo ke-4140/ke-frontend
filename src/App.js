@@ -18,20 +18,20 @@ function App() {
       url: "https://www.youtube.com/watch?v=rOTqprHv1YE",
       name: "What Is Docker? | What Is Docker And How It Works? | Docker Tutorial For Beginners | Simplilearn",
       vid_time: '15:51',
-      pdf: ''
+      pdf: '/KE_What Is Docker_ _ What Is Docker And How It Works_ _ Docker Tutorial For Beginners _ Simplilearn.pdf'
     },
     {
       url: "https://www.youtube.com/watch?v=mgipNdAgQ3o",
       name: "Ten SQL Tricks that You Didn’t Think Were Possible (Lukas Eder)",
       vid_time: '45:09',
-      pdf: ''
+      pdf: 'KE_Ten SQL Tricks that You Didn’t Think Were Possible (Lukas Eder).pdf'
 
     },
     {
       url: "https://www.youtube.com/watch?v=a6sNwOSAxoo",
       name: "Styles & Theming in React Native - a webinar by Haris Mahmood",
       vid_time: '1:23:56',
-      pdf: ''
+      pdf: '/KE_Styles & Theming in React Native - a webinar by Haris Mahmood.pdf'
     }
   ];
   const history = useHistory();
@@ -45,7 +45,7 @@ function App() {
   }
 
   function downloadPdf(pdf) {
-
+    window.location = pdf;
   }
 
   const opts = {
