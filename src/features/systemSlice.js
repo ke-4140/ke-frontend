@@ -146,7 +146,7 @@ export const initializeFrames = (numOfFrames) => (dispatch, getState) => {
 
   dispatch(setTotalVideoTime(numOfFrames));
 
-  console.log(numOfFrames);
+  // console.log(numOfFrames);
   var seconds = numOfFrames;
   var testFrames = Array.from({ length: seconds }, (v, k) => k).map(k => ({
     id: `init-${k}`,
@@ -154,7 +154,6 @@ export const initializeFrames = (numOfFrames) => (dispatch, getState) => {
     isExtracted: false,
     isKey: false
   }));
-
   dispatch(setFrames(testFrames));
 
 };
@@ -207,7 +206,7 @@ export const processFrameScriptTuple = (n) => (dispatch, getState) => {
       layoutTypeRows: getRows(response.data.data[k].text.length)
     }));
 
-    console.log(contents)
+    // console.log(contents)
     dispatch(setContents(contents));
   }).catch(function (error) {
     console.log(error);

@@ -24,7 +24,7 @@ function App() {
       url: "https://www.youtube.com/watch?v=mgipNdAgQ3o",
       name: "Ten SQL Tricks that You Didn’t Think Were Possible (Lukas Eder)",
       vid_time: '45:09',
-      pdf: 'KE_Ten SQL Tricks that You Didn’t Think Were Possible (Lukas Eder).pdf'
+      pdf: '/KE_Ten SQL Tricks that You Didn’t Think Were Possible (Lukas Eder).pdf'
 
     },
     {

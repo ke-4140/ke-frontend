@@ -105,6 +105,7 @@ export function Timeline({ seconds, player, seekTo, playAt, extractionProgress }
         dataLength={loadedFramesNum} //This is important field to render the next data
         next={loadsMore}
         hasMore={true}
+        loader={<span>...</span>}
         className="wrapper">
         {frames.slice(0, loadedFramesNum).map((frame, index) =>
           <div

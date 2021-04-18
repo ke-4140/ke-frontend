@@ -22,6 +22,7 @@ export function Preview() {
   }, []);
 
   function triggerPrint() {
+    console.log('TriggeredPrint')
     document.getElementById('toPrint').style.overflow = 'unset';
     document.getElementById('hide').style.display = 'none';
     document.getElementById('hideHeader').style.display = 'none';
