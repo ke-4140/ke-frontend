@@ -1,8 +1,12 @@
 Keyframe Extractor 2021 @ CUHK CSCI4140 
 
+# Development
+
 ### `yarn start`
 
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+
+# Core Modules
 
 ### `Core Module 0: Uploader`
 Functions: 
@@ -32,3 +36,8 @@ Functions:
 3. react-redux - state management 
 4. react-youtube - for youtube player iframe support
 5. react-infinite-scroll - to optimizie render for long elements 
+
+# Deploy
+1. Clone this directory
+2. ```yarn build```
+3. ```yarn deploy```
